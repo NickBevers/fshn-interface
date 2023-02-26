@@ -3,10 +3,10 @@ import { defineComponent, ref, onMounted, onBeforeMount } from 'vue';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 
-const picture = ref<string | null>(null);
-const fps = 60;
-const width = 640; //640 - 1200 (real)
-const height = 480; //480 - 675 (real)
+const offset: number = 0;
+const fps = 10;
+let width: number; //640 - 1200 (real)
+let height: number; //480 - 675 (real)
 const detectorConfig = {
     modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING, 
     enableTracking: true,
@@ -14,7 +14,14 @@ const detectorConfig = {
 };
 let detector: poseDetection.PoseDetector;
 let stopDetecting:boolean = false;
+let clothing:boolean = false;
 let video: HTMLVideoElement;
+const img = new Image();
+img.src = '/src/assets/tshitTest.png';
+img.onload = () => {
+    console.log('image loaded');
+}
+let rightShoulder: {x: number, y: number} = {x: 0, y: 0};
 
 onBeforeMount(async () => {
     detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
@@ -32,6 +39,9 @@ onMounted(async () => {
                 video!.srcObject = stream;
                 video!.onloadedmetadata = () => {
                     video!.play();
+                    console.log('video playing');
+                    width = video!.videoWidth;
+                    height = video!.videoHeight;
                     drawCanvas();
                 }
             })
@@ -44,11 +54,13 @@ onMounted(async () => {
 });
 
 const drawCanvas = () => {
-    const canvas: HTMLCanvasElement = document.querySelector('.mapping__canvas') as HTMLCanvasElement;
+    const canvas: HTMLCanvasElement = document.querySelector('.canvas--map') as HTMLCanvasElement;
     const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    canvas.width = width;
+    canvas.height = height;
+
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     getPoses();
-
     if(video.paused || video.ended) return;
     if (!stopDetecting){
         setTimeout(() => {
@@ -60,78 +72,80 @@ const drawCanvas = () => {
 const getPoses = async () => {
     if( detector ){
         const poses = await detector.estimatePoses(video!);
-        if (poses.length === 0) {
-            return;
-        }
+        if (poses.length === 0) { return; }
         const keypoints = poses[0].keypoints;
-        const filteredKeypoints = keypoints.slice(0, 5);
-        // const filteredKeypoints = filtered.filter((keypoint) => keypoint.score! > 0.35);
-        // console.log(filteredKeypoints[0].y);
-
-        drawKeypoints(filteredKeypoints);
+        // const filteredKeypoints = keypoints.slice(0, 5);
+        // const filteredKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
+        drawKeypoints(keypoints);
     } else {
         return;
     }
 }
 
 const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
-    const canvas: HTMLCanvasElement = document.querySelector('.mapping__canvas') as HTMLCanvasElement;
+    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
     const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    canvas.width = width;
+    canvas.height = height;
+    let newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
 
-    keypoints.forEach((keypoint) => {
-        // const x = keypoint.x * (width / 640);
-        // const y = keypoint.y * (height / 480);
+    newKeypoints.forEach((keypoint) => {
         const x = keypoint.x;
         const y = keypoint.y;
         ctx.beginPath();
-        ctx.arc(x, y + 60, 4, 0, 2 * Math.PI);
-        ctx.fillStyle = 'aqua';
+        ctx.arc(x, y + offset, 4, 0, 2 * Math.PI);
+        if (keypoint.name === 'right_shoulder') {
+            rightShoulder = {x: keypoint.x, y: keypoint.y};
+            ctx.fillStyle = 'red';
+        } else {
+            ctx.fillStyle = 'aqua';
+        }
         ctx.fill();
     });
 
-
-    ctx.beginPath();
-    
-    if(keypoints.length < 5) return;
-    // Left eye
-    ctx.moveTo(keypoints[0].x, keypoints[0].y + 60);
-    ctx.lineTo(keypoints[1].x, keypoints[1].y + 60);
-
-    // Right eye
-    ctx.moveTo(keypoints[0].x, keypoints[0].y + 60);
-    ctx.lineTo(keypoints[2].x, keypoints[2].y + 60);
-
-    // Left ear
-    ctx.moveTo(keypoints[1].x, keypoints[1].y + 60);
-    ctx.lineTo(keypoints[3].x, keypoints[3].y + 60);
-
-    // Right ear
-    ctx.moveTo(keypoints[2].x, keypoints[2].y + 60);
-    ctx.lineTo(keypoints[4].x, keypoints[4].y + 60);
-    ctx.strokeStyle = 'aqua';
-    ctx.stroke();
-    // ctx.restore();
-
+    if (clothing) {
+        showTshirt();
+    }
 }
 
 const startDetect = () => {
     stopDetecting = false;
+    video.play();
     drawCanvas();
 }
 
 const stopDetect = () => {
     stopDetecting = true;
+    video.pause();
+}
+
+const toggleShirt = () => {
+    clothing = !clothing;
+}
+
+const showTshirt = () => {
+    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
+    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    var factor  = Math.min ( canvas.width / img.width, canvas.height / img.height );
+    ctx.scale(factor, factor);
+    ctx.drawImage(img, rightShoulder.x, 0);
+    ctx.scale(1 / factor, 1 / factor);
+    // ctx.drawImage(img, 0, 0, 0, canvas.height);
 }
 
 </script>
 
 <template>
-    <canvas :width="width" :height="height" class="mapping__canvas"></canvas>
+    <div class="canvasContainer">
+        <canvas class="canvas--map"></canvas>
+        <canvas class="canvas--clothes"></canvas>
+    </div>
     <video autoplay="true" class="cameraFeed"></video><br>
-
 
     <button @click="startDetect()">Start detecting</button>
     <button @click="stopDetect">Stop detecting</button>
+    <button @click="toggleShirt">Toggle tshirt</button>
+
 </template>
 
 <style scoped>
@@ -156,4 +170,27 @@ button {
 .cameraFeed {
     display: none;
 }
+
+.canvasContainer {
+    position: relative;
+    width: 100%;
+    height: clamp(360px, 100vh, 480px);
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.canvas--map, .canvas--clothes {
+    position: absolute;
+    top: 20px;
+}
+
+.canvas--map {
+    z-index: 1;
+}
+
+.canvas--clothes {
+    z-index: 2;
+}
+
 </style>
