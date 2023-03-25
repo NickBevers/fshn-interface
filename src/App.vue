@@ -3,8 +3,7 @@ import { defineComponent, ref, onMounted, onBeforeMount } from 'vue';
 import * as poseDetection from '@tensorflow-models/pose-detection';
 import '@tensorflow/tfjs-backend-webgl';
 
-const offset: number = 0;
-const fps = 10;
+const fps = 60;
 let width: number; //640 - 1200 (real)
 let height: number; //480 - 675 (real)
 const detectorConfig = {
@@ -17,10 +16,11 @@ let stopDetecting:boolean = false;
 let clothing:boolean = false;
 let video: HTMLVideoElement;
 const img = new Image();
-img.src = '/src/assets/tshitTest.png';
+img.src = '/src/assets/tshirt-body.png';
 img.onload = () => {
     console.log('image loaded');
 }
+let leftShoulder: {x: number, y: number} = {x: 0, y: 0};
 let rightShoulder: {x: number, y: number} = {x: 0, y: 0};
 
 onBeforeMount(async () => {
@@ -88,23 +88,34 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
     canvas.width = width;
     canvas.height = height;
     let newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
+    let shoulderDistance: number = 0;
 
     newKeypoints.forEach((keypoint) => {
         const x = keypoint.x;
         const y = keypoint.y;
         ctx.beginPath();
-        ctx.arc(x, y + offset, 4, 0, 2 * Math.PI);
+        ctx.arc(x, y, 4, 0, 2 * Math.PI);
         if (keypoint.name === 'right_shoulder') {
             rightShoulder = {x: keypoint.x, y: keypoint.y};
             ctx.fillStyle = 'red';
+        } else if(keypoint.name === 'left_shoulder'){
+            leftShoulder = {x: keypoint.x, y: keypoint.y};
+            ctx.fillStyle = 'yellow';
         } else {
             ctx.fillStyle = 'aqua';
         }
         ctx.fill();
+
+        if (keypoint.name === 'left_shoulder') {
+            shoulderDistance = Math.sqrt(Math.pow((keypoint.x - rightShoulder.x), 2) + Math.pow((keypoint.y - rightShoulder.y), 2));
+        }
     });
 
+
+
     if (clothing) {
-        showTshirt();
+        // console.log(shoulderDistance);
+        showTshirt(shoulderDistance);
     }
 }
 
@@ -123,14 +134,33 @@ const toggleShirt = () => {
     clothing = !clothing;
 }
 
-const showTshirt = () => {
+//draw circle on shoulder
+const drawCircle = (x: number, y: number) => {
     const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
     const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
-    var factor  = Math.min ( canvas.width / img.width, canvas.height / img.height );
-    ctx.scale(factor, factor);
-    ctx.drawImage(img, rightShoulder.x, 0);
-    ctx.scale(1 / factor, 1 / factor);
-    // ctx.drawImage(img, 0, 0, 0, canvas.height);
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, 2 * Math.PI);
+    ctx.fillStyle = 'red';
+    ctx.fill();
+}
+
+const showTshirt = (distance :number) => {
+    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
+    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    var factor  = distance / img.width;
+    if (factor > 0) {
+        // console.log(factor);
+        // img.width = distance;
+        // img.height = img.height * factor;
+        ctx.scale(factor, 1);
+        ctx.drawImage(img, leftShoulder.x, leftShoulder.y);
+        ctx.scale(1 / factor, 1 / factor);
+        // console.log(leftShoulder.x, leftShoulder.y);
+        
+
+        // drawCircle(leftShoulder.x, leftShoulder.y);
+
+    }
 }
 
 </script>
