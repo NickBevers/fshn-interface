@@ -1,12 +1,7 @@
 <script setup lang="ts">
-import { defineComponent, ref } from 'vue';
-
+import { defineComponent, ref } from "vue";
 </script>
 
-<template>
+<template></template>
 
-</template>
-
-<style scoped>
-
-</style>
+<style scoped></style>

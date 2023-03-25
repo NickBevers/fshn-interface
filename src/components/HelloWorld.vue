@@ -1,11 +1,10 @@
 <script lang="ts" setup>
-    import { defineComponent, ref } from 'vue'
-    const props = defineProps<{ name: string }>()
+import { defineComponent, ref } from "vue";
+const props = defineProps<{ name: string }>();
 </script>
 
 <template>
     <h1>{{ props.name }}</h1>
-
 </template>
 
 <style scoped>

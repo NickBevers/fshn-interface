@@ -1,78 +1,90 @@
 <script lang="ts" setup>
-import { defineComponent, ref, onMounted, onBeforeMount } from 'vue';
-import * as poseDetection from '@tensorflow-models/pose-detection';
-import '@tensorflow/tfjs-backend-webgl';
+import { defineComponent, ref, onMounted, onBeforeMount } from "vue";
+import * as poseDetection from "@tensorflow-models/pose-detection";
+import "@tensorflow/tfjs-backend-webgl";
 
 const fps = 60;
 let width: number; //640 - 1200 (real)
 let height: number; //480 - 675 (real)
 const detectorConfig = {
-    modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING, 
+    modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
     enableTracking: true,
-    trackerType: poseDetection.TrackerType.BoundingBox
+    trackerType: poseDetection.TrackerType.BoundingBox,
 };
 let detector: poseDetection.PoseDetector;
-let stopDetecting:boolean = false;
-let clothing:boolean = false;
+let stopDetecting: boolean = false;
+let clothing: boolean = false;
 let video: HTMLVideoElement;
 const img = new Image();
-img.src = '/src/assets/tshirt-body.png';
+img.src = "/src/assets/tshirt-body.png";
 img.onload = () => {
-    console.log('image loaded');
-}
-let leftShoulder: {x: number, y: number} = {x: 0, y: 0};
-let rightShoulder: {x: number, y: number} = {x: 0, y: 0};
+    console.log("image loaded");
+};
+let leftShoulder: { x: number; y: number } = { x: 0, y: 0 };
+let rightShoulder: { x: number; y: number } = { x: 0, y: 0 };
 
 onBeforeMount(async () => {
-    detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
+    detector = await poseDetection.createDetector(
+        poseDetection.SupportedModels.MoveNet,
+        detectorConfig
+    );
     console.log(detector);
 });
 
 onMounted(async () => {
-    if ('mediaDevices' in navigator && navigator.mediaDevices.getUserMedia) {
-        navigator.mediaDevices.getUserMedia({
-            video: true,
-            audio: false,
-        })
-            .then(stream => {
-                video = document.querySelector('.cameraFeed') as HTMLVideoElement;
+    if ("mediaDevices" in navigator && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+            .getUserMedia({
+                video: true,
+                audio: false,
+            })
+            .then((stream) => {
+                video = document.querySelector(
+                    ".cameraFeed"
+                ) as HTMLVideoElement;
                 video!.srcObject = stream;
                 video!.onloadedmetadata = () => {
                     video!.play();
-                    console.log('video playing');
+                    console.log("video playing");
                     width = video!.videoWidth;
                     height = video!.videoHeight;
                     drawCanvas();
-                }
+                };
             })
-            .catch(err => {
-                console.error(err)
-            })
+            .catch((err) => {
+                console.error(err);
+            });
 
-        return { video }
+        return { video };
     }
 });
 
 const drawCanvas = () => {
-    const canvas: HTMLCanvasElement = document.querySelector('.canvas--map') as HTMLCanvasElement;
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    const canvas: HTMLCanvasElement = document.querySelector(
+        ".canvas--map"
+    ) as HTMLCanvasElement;
+    const ctx: CanvasRenderingContext2D = canvas.getContext(
+        "2d"
+    ) as CanvasRenderingContext2D;
     canvas.width = width;
     canvas.height = height;
 
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
     getPoses();
-    if(video.paused || video.ended) return;
-    if (!stopDetecting){
+    if (video.paused || video.ended) return;
+    if (!stopDetecting) {
         setTimeout(() => {
             requestAnimationFrame(drawCanvas);
         }, 1000 / fps);
     }
-}
+};
 
 const getPoses = async () => {
-    if( detector ){
+    if (detector) {
         const poses = await detector.estimatePoses(video!);
-        if (poses.length === 0) { return; }
+        if (poses.length === 0) {
+            return;
+        }
         const keypoints = poses[0].keypoints;
         // const filteredKeypoints = keypoints.slice(0, 5);
         // const filteredKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
@@ -80,11 +92,15 @@ const getPoses = async () => {
     } else {
         return;
     }
-}
+};
 
 const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
-    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    const canvas: HTMLCanvasElement = document.querySelector(
+        ".canvas--clothes"
+    ) as HTMLCanvasElement;
+    const ctx: CanvasRenderingContext2D = canvas.getContext(
+        "2d"
+    ) as CanvasRenderingContext2D;
     canvas.width = width;
     canvas.height = height;
     let newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
@@ -95,59 +111,68 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
         const y = keypoint.y;
         ctx.beginPath();
         ctx.arc(x, y, 4, 0, 2 * Math.PI);
-        if (keypoint.name === 'right_shoulder') {
-            rightShoulder = {x: keypoint.x, y: keypoint.y};
-            ctx.fillStyle = 'red';
-        } else if(keypoint.name === 'left_shoulder'){
-            leftShoulder = {x: keypoint.x, y: keypoint.y};
-            ctx.fillStyle = 'yellow';
+        if (keypoint.name === "right_shoulder") {
+            rightShoulder = { x: keypoint.x, y: keypoint.y };
+            ctx.fillStyle = "red";
+        } else if (keypoint.name === "left_shoulder") {
+            leftShoulder = { x: keypoint.x, y: keypoint.y };
+            ctx.fillStyle = "yellow";
         } else {
-            ctx.fillStyle = 'aqua';
+            ctx.fillStyle = "aqua";
         }
         ctx.fill();
 
-        if (keypoint.name === 'left_shoulder') {
-            shoulderDistance = Math.sqrt(Math.pow((keypoint.x - rightShoulder.x), 2) + Math.pow((keypoint.y - rightShoulder.y), 2));
+        if (keypoint.name === "left_shoulder") {
+            shoulderDistance = Math.sqrt(
+                Math.pow(keypoint.x - rightShoulder.x, 2) +
+                    Math.pow(keypoint.y - rightShoulder.y, 2)
+            );
         }
     });
-
-
 
     if (clothing) {
         // console.log(shoulderDistance);
         showTshirt(shoulderDistance);
     }
-}
+};
 
 const startDetect = () => {
     stopDetecting = false;
     video.play();
     drawCanvas();
-}
+};
 
 const stopDetect = () => {
     stopDetecting = true;
     video.pause();
-}
+};
 
 const toggleShirt = () => {
     clothing = !clothing;
-}
+};
 
 //draw circle on shoulder
 const drawCircle = (x: number, y: number) => {
-    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
+    const canvas: HTMLCanvasElement = document.querySelector(
+        ".canvas--clothes"
+    ) as HTMLCanvasElement;
+    const ctx: CanvasRenderingContext2D = canvas.getContext(
+        "2d"
+    ) as CanvasRenderingContext2D;
     ctx.beginPath();
     ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = 'red';
+    ctx.fillStyle = "red";
     ctx.fill();
-}
+};
 
-const showTshirt = (distance :number) => {
-    const canvas: HTMLCanvasElement = document.querySelector('.canvas--clothes') as HTMLCanvasElement;
-    const ctx:CanvasRenderingContext2D = canvas.getContext('2d') as CanvasRenderingContext2D;
-    var factor  = distance / img.width;
+const showTshirt = (distance: number) => {
+    const canvas: HTMLCanvasElement = document.querySelector(
+        ".canvas--clothes"
+    ) as HTMLCanvasElement;
+    const ctx: CanvasRenderingContext2D = canvas.getContext(
+        "2d"
+    ) as CanvasRenderingContext2D;
+    var factor = distance / img.width;
     if (factor > 0) {
         // console.log(factor);
         // img.width = distance;
@@ -156,13 +181,10 @@ const showTshirt = (distance :number) => {
         ctx.drawImage(img, leftShoulder.x, leftShoulder.y);
         ctx.scale(1 / factor, 1 / factor);
         // console.log(leftShoulder.x, leftShoulder.y);
-        
 
         // drawCircle(leftShoulder.x, leftShoulder.y);
-
     }
-}
-
+};
 </script>
 
 <template>
@@ -170,12 +192,11 @@ const showTshirt = (distance :number) => {
         <canvas class="canvas--map"></canvas>
         <canvas class="canvas--clothes"></canvas>
     </div>
-    <video autoplay="true" class="cameraFeed"></video><br>
+    <video autoplay="true" class="cameraFeed"></video><br />
 
     <button @click="startDetect()">Start detecting</button>
     <button @click="stopDetect">Stop detecting</button>
     <button @click="toggleShirt">Toggle tshirt</button>
-
 </template>
 
 <style scoped>
@@ -210,7 +231,8 @@ button {
     justify-content: center;
 }
 
-.canvas--map, .canvas--clothes {
+.canvas--map,
+.canvas--clothes {
     position: absolute;
     top: 20px;
 }
@@ -222,5 +244,4 @@ button {
 .canvas--clothes {
     z-index: 2;
 }
-
 </style>
