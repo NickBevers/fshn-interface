@@ -1,0 +1,6 @@
+package.json
+**/*.js
+**/*.jsx
+**/*.ts
+**/*.tsx
+.next/*

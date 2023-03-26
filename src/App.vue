@@ -1,9 +1,9 @@
 <script lang="ts" setup>
-import { defineComponent, ref, onMounted, onBeforeMount } from "vue";
+import { onMounted, onBeforeMount } from "vue";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 
-const fps = 60;
+const fps = 30;
 let width: number; //640 - 1200 (real)
 let height: number; //480 - 675 (real)
 const detectorConfig = {
@@ -12,8 +12,8 @@ const detectorConfig = {
     trackerType: poseDetection.TrackerType.BoundingBox,
 };
 let detector: poseDetection.PoseDetector;
-let stopDetecting: boolean = false;
-let clothing: boolean = false;
+let stopDetecting = false;
+let clothing = false;
 let video: HTMLVideoElement;
 const img = new Image();
 img.src = "/src/assets/tshirt-body.png";
@@ -103,8 +103,8 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
     ) as CanvasRenderingContext2D;
     canvas.width = width;
     canvas.height = height;
-    let newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
-    let shoulderDistance: number = 0;
+    const newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
+    let shoulderDistance = 0;
 
     newKeypoints.forEach((keypoint) => {
         const x = keypoint.x;
@@ -151,20 +151,6 @@ const toggleShirt = () => {
     clothing = !clothing;
 };
 
-//draw circle on shoulder
-const drawCircle = (x: number, y: number) => {
-    const canvas: HTMLCanvasElement = document.querySelector(
-        ".canvas--clothes"
-    ) as HTMLCanvasElement;
-    const ctx: CanvasRenderingContext2D = canvas.getContext(
-        "2d"
-    ) as CanvasRenderingContext2D;
-    ctx.beginPath();
-    ctx.arc(x, y, 10, 0, 2 * Math.PI);
-    ctx.fillStyle = "red";
-    ctx.fill();
-};
-
 const showTshirt = (distance: number) => {
     const canvas: HTMLCanvasElement = document.querySelector(
         ".canvas--clothes"
@@ -172,7 +158,7 @@ const showTshirt = (distance: number) => {
     const ctx: CanvasRenderingContext2D = canvas.getContext(
         "2d"
     ) as CanvasRenderingContext2D;
-    var factor = distance / img.width;
+    const factor = distance / img.width;
     if (factor > 0) {
         // console.log(factor);
         // img.width = distance;
