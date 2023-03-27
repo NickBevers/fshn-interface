@@ -15,17 +15,14 @@
     "plugins": ["@typescript-eslint", "prettier"],
     "rules": {
         // override/add rules settings here, such as:
-        "prettier/prettier": [
-            "error",
-            {
-                "endOfLine": "auto"
-            }
-        ],
+        "prettier/prettier": ["error", { "endOfLine": "auto" }],
         "vue/no-unused-vars": "error",
         "vue/require-default-prop": "off",
         "arrow-parens": "off",
+        "no-trailing-spaces": "off",
         "vue/no-multiple-template-root": "off",
-        "@typescript-eslint/no-non-null-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "array-bracket-spacing": ["error", "always"]
     },
     "overrides": [
         {

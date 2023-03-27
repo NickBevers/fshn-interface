@@ -3,7 +3,7 @@ import { onMounted, onBeforeMount } from "vue";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 
-const fps = 30;
+const fps = 10;
 let width: number; //640 - 1200 (real)
 let height: number; //480 - 675 (real)
 const detectorConfig = {
@@ -16,10 +16,8 @@ let stopDetecting = false;
 let clothing = false;
 let video: HTMLVideoElement;
 const img = new Image();
-img.src = "/src/assets/tshirt-body.png";
-img.onload = () => {
-    console.log("image loaded");
-};
+// img.src = "/src/assets/tshirt-body.png";
+img.src = "/src/assets/tshitTest.png";
 let leftShoulder: { x: number; y: number } = { x: 0, y: 0 };
 let rightShoulder: { x: number; y: number } = { x: 0, y: 0 };
 
@@ -28,7 +26,7 @@ onBeforeMount(async () => {
         poseDetection.SupportedModels.MoveNet,
         detectorConfig
     );
-    console.log(detector);
+    // console.log(detector);
 });
 
 onMounted(async () => {
@@ -45,9 +43,12 @@ onMounted(async () => {
                 video!.srcObject = stream;
                 video!.onloadedmetadata = () => {
                     video!.play();
-                    console.log("video playing");
-                    width = video!.videoWidth;
-                    height = video!.videoHeight;
+                    // console.log("video playing");
+                    video!.width = video!.videoWidth * 2;
+                    video!.height = video!.videoHeight * 2;
+                    width = video!.width;
+                    height = video!.height;
+                    console.log(width, height);
                     drawCanvas();
                 };
             })
@@ -70,8 +71,9 @@ const drawCanvas = () => {
     canvas.height = height;
 
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    getPoses();
     if (video.paused || video.ended) return;
+
+    getPoses();
     if (!stopDetecting) {
         setTimeout(() => {
             requestAnimationFrame(drawCanvas);
@@ -117,10 +119,11 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
         } else if (keypoint.name === "left_shoulder") {
             leftShoulder = { x: keypoint.x, y: keypoint.y };
             ctx.fillStyle = "yellow";
-        } else {
-            ctx.fillStyle = "aqua";
         }
-        ctx.fill();
+        // } else {
+        //     ctx.fillStyle = "aqua";
+        // }
+        // ctx.fill();
 
         if (keypoint.name === "left_shoulder") {
             shoulderDistance = Math.sqrt(
@@ -158,18 +161,29 @@ const showTshirt = (distance: number) => {
     const ctx: CanvasRenderingContext2D = canvas.getContext(
         "2d"
     ) as CanvasRenderingContext2D;
-    const factor = distance / img.width;
-    if (factor > 0) {
-        // console.log(factor);
-        // img.width = distance;
-        // img.height = img.height * factor;
-        ctx.scale(factor, 1);
-        ctx.drawImage(img, leftShoulder.x, leftShoulder.y);
-        ctx.scale(1 / factor, 1 / factor);
-        // console.log(leftShoulder.x, leftShoulder.y);
+    // const factor = distance / img.width;
+    // if (factor > 0) {
+    //     // console.log(factor);
+    //     // img.width = distance;
+    //     // img.height = img.height * factor;
+    //     ctx.scale(factor, 1);
+    //     ctx.drawImage(img, leftShoulder.x, leftShoulder.y);
+    //     ctx.scale(1 / factor, 1 / factor);
+    //     // console.log(leftShoulder.x, leftShoulder.y);
+    //     // drawCircle(leftShoulder.x, leftShoulder.y);
+    // }
 
-        // drawCircle(leftShoulder.x, leftShoulder.y);
-    }
+    const factor = canvas.height / img.height;
+    const newWidth = img.width * factor;
+    const newHeight = img.height * factor;
+    const quarterWidth = img.width / 4;
+    ctx.drawImage(
+        img,
+        canvas.width / 2 - quarterWidth,
+        rightShoulder.y,
+        newWidth,
+        newHeight
+    );
 };
 </script>
 
@@ -211,7 +225,7 @@ button {
 .canvasContainer {
     position: relative;
     width: 100%;
-    height: clamp(360px, 100vh, 480px);
+    height: clamp(720px, 100vh, 850px);
     margin: 0 auto;
     display: flex;
     justify-content: center;
