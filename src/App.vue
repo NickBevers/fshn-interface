@@ -44,8 +44,8 @@ onMounted(async () => {
                 video!.onloadedmetadata = () => {
                     video!.play();
                     // console.log("video playing");
-                    video!.width = video!.videoWidth * 2;
-                    video!.height = video!.videoHeight * 2;
+                    video!.width = video!.videoWidth;
+                    video!.height = video!.videoHeight;
                     width = video!.width;
                     height = video!.height;
                     console.log(width, height);
@@ -119,11 +119,10 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
         } else if (keypoint.name === "left_shoulder") {
             leftShoulder = { x: keypoint.x, y: keypoint.y };
             ctx.fillStyle = "yellow";
+        } else {
+            ctx.fillStyle = "aqua";
         }
-        // } else {
-        //     ctx.fillStyle = "aqua";
-        // }
-        // ctx.fill();
+        ctx.fill();
 
         if (keypoint.name === "left_shoulder") {
             shoulderDistance = Math.sqrt(
@@ -179,8 +178,9 @@ const showTshirt = (distance: number) => {
     const quarterWidth = img.width / 4;
     ctx.drawImage(
         img,
-        canvas.width / 2 - quarterWidth,
-        rightShoulder.y,
+        // canvas.width / 2 - quarterWidth,
+        leftShoulder.x - 10 - quarterWidth,
+        rightShoulder.y - 50,
         newWidth,
         newHeight
     );
