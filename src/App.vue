@@ -3,7 +3,7 @@ import { onMounted, onBeforeMount } from "vue";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 
-const fps = 10;
+const fps = 20;
 let width: number; //640 - 1200 (real)
 let height: number; //480 - 675 (real)
 const detectorConfig = {
@@ -160,30 +160,30 @@ const showTshirt = (distance: number) => {
     const ctx: CanvasRenderingContext2D = canvas.getContext(
         "2d"
     ) as CanvasRenderingContext2D;
-    // const factor = distance / img.width;
-    // if (factor > 0) {
-    //     // console.log(factor);
-    //     // img.width = distance;
-    //     // img.height = img.height * factor;
-    //     ctx.scale(factor, 1);
-    //     ctx.drawImage(img, leftShoulder.x, leftShoulder.y);
-    //     ctx.scale(1 / factor, 1 / factor);
-    //     // console.log(leftShoulder.x, leftShoulder.y);
-    //     // drawCircle(leftShoulder.x, leftShoulder.y);
-    // }
-
-    const factor = canvas.height / img.height;
-    const newWidth = img.width * factor;
-    const newHeight = img.height * factor;
-    const quarterWidth = img.width / 4;
+    const scale = (distance / img.width) * 2;
+    // console.log(scale);
+    // rotate the image around top center point based on the angle between the shoulders and the horizontal
+    const angle =
+        Math.atan2(
+            rightShoulder.y - leftShoulder.y,
+            rightShoulder.x - leftShoulder.x
+        ) + Math.PI;
+    ctx.translate(leftShoulder.x, leftShoulder.y);
+    ctx.rotate(angle);
+    const newWidth = img.width * scale;
+    const newHeight = img.height * scale;
+    // console.log(leftShoulder.x - rightShoulder.x);
     ctx.drawImage(
         img,
-        // canvas.width / 2 - quarterWidth,
-        leftShoulder.x - 10 - quarterWidth,
-        rightShoulder.y - 50,
+        -(canvas.width * scale) - 40,
+        // -(leftShoulder.x - rightShoulder.x),
+        -50,
         newWidth,
         newHeight
     );
+    ctx.rotate(-angle);
+    ctx.translate(-leftShoulder.x, -leftShoulder.y);
+    // ctx.scale(1 / scale, 1 / scale);
 };
 </script>
 
@@ -225,7 +225,7 @@ button {
 .canvasContainer {
     position: relative;
     width: 100%;
-    height: clamp(720px, 100vh, 850px);
+    height: clamp(480px, 100vh, 720px);
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -235,6 +235,7 @@ button {
 .canvas--clothes {
     position: absolute;
     top: 20px;
+    border: 3px solid red;
 }
 
 .canvas--map {
