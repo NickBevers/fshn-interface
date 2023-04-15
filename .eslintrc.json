@@ -21,14 +21,11 @@
         "no-trailing-spaces": "off",
         "vue/no-multiple-template-root": "off",
         "@typescript-eslint/no-non-null-assertion": "off",
-        "array-bracket-spacing": ["error", "always"]
+        "array-bracket-spacing": ["warn", "always"]
     },
     "overrides": [
         {
-            "files": [
-                "**/__tests__/*.{j,t}s?(x)",
-                "**/tests/unit/**/*.spec.{j,t}s?(x)"
-            ],
+            "files": ["**/__tests__/*.{j,t}s?(x)", "**/tests/unit/**/*.spec.{j,t}s?(x)"],
             "env": {
                 "jest": true
             }
