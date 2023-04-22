@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-import {ref, onMounted} from 'vue'
+// import the necessary functions and packages
+import { onMounted } from "vue";
+
 
 onMounted(async () => {
     const wrapper = document.querySelector('.wrapper') as HTMLElement;
@@ -44,16 +46,16 @@ onMounted(async () => {
             <img class="sub" src="../assets/hoodies2.png" alt="">
         </div>
     </div>
+
 </template>
 
 <style scoped>
 .wrapper{
     display: flex;
     grid-gap: 1rem;
-    max-width: 768px;
+    max-width: 100%;
     width: 100%;
     overflow-x: auto;
-    scroll-snap-type: x;
     scroll-behavior: smooth;
     padding: 1rem;
     margin: 0 auto;
@@ -66,19 +68,24 @@ onMounted(async () => {
 }
 
 .slider {
-    min-width: calc(50% - .5rem);
+    min-width: calc(50% - 1rem);
     aspect-ratio: 1/1;
-    height: 100px;
+    height: 250px;
     display: flex;
     justify-content: center;
-    align-items: center; /*Moet start zijn*/
+    align-items: start; 
     scroll-snap-align: start;
     overflow: hidden;
     user-select: none;
 }
-.sub{
-    width: 50%;
-    object-fit: fill;
+
+.sub {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 4px;
 }
+
 
 </style>
