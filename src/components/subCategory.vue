@@ -45,34 +45,47 @@ onMounted(async () => {
         <div class="slider">
             <img class="sub" src="../assets/hoodies2.png" alt="">
         </div>
+        <div class="slider">
+            <img class="sub" src="../assets/tops.jpg" alt="">
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/hoodies2.png" alt="">
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/tops.jpg" alt="">
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/hoodies2.png" alt="">
+        </div>
     </div>
 
 </template>
 
 <style scoped>
 .wrapper{
+    width: 100%;
+    height: 320px;
     display: flex;
     grid-gap: 1rem;
-    max-width: 100%;
-    width: 100%;
+    flex-wrap: nowrap;
+    overflow: auto;
+    overflow-y: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
     overflow-x: auto;
+    scroll-snap-type: x;
     scroll-behavior: smooth;
-    padding: 1rem;
-    margin: 0 auto;
-    cursor: grab;
-    scrollbar-width: none;
 }
 
 .wrapper::-webkit-scrollbar {
-    display: none;
+    display: none; /*Chrome, Safari, Opera*/
 }
 
 .slider {
-    min-width: calc(50% - 1rem);
-    aspect-ratio: 1/1;
+    min-width: calc(25% - 0.5rem);
     height: 250px;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: start; 
     scroll-snap-align: start;
     overflow: hidden;
