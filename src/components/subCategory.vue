@@ -35,27 +35,35 @@ onMounted(async () => {
     <div class="wrapper">
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
+            <p class="title">Tops</p>
         </div>
         <div class="slider">
-            <img class="sub" src="../assets/hoodies2.png" alt="">
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/tops.jpg" alt="">
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/hoodies2.png" alt="">
+            <img class="sub" src="../assets/hoodies.png" alt="">
+            <p class="title">Sweatshirts & Hoodies</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
+            <p class="title">Tops</p>
         </div>
         <div class="slider">
-            <img class="sub" src="../assets/hoodies2.png" alt="">
+            <img class="sub" src="../assets/hoodies.png" alt="">
+            <p class="title">Sweatshirts & Hoodies</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
+            <p class="title">Tops</p>
         </div>
         <div class="slider">
-            <img class="sub" src="../assets/hoodies2.png" alt="">
+            <img class="sub" src="../assets/hoodies.png" alt="">
+            <p class="title">Sweatshirts & Hoodies</p>
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/tops.jpg" alt="">
+            <p class="title">Tops</p>
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/hoodies.png" alt="">
+            <p class="title">Sweatshirts & Hoodies</p>
         </div>
     </div>
 
@@ -83,10 +91,11 @@ onMounted(async () => {
 
 .slider {
     min-width: calc(25% - 0.5rem);
-    height: 250px;
+    height: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
-    align-items: start; 
+    align-items: center; 
     scroll-snap-align: start;
     overflow: hidden;
     user-select: none;
@@ -98,6 +107,10 @@ onMounted(async () => {
     object-fit: cover;
     object-position: center;
     border-radius: 4px;
+}
+
+.title {
+    color: white;
 }
 
 
