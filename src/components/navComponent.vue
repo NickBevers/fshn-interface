@@ -20,7 +20,6 @@
 <style scoped>
 
 nav {
-    background-color: black;
     position: fixed;
     left: 0;
     top: 0;
