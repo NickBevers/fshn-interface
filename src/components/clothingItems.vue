@@ -14,7 +14,9 @@
             <img class="clothing-item-img" src="../assets/pink_top.jpg" alt="">
         </div>
         <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/black_top.jpg" alt="">
+            <a href="detail.html">
+                <img class="clothing-item-img" src="../assets/black_top.jpg" alt="">
+            </a>            
         </div>
         <div class="clothing-item">
             <img class="clothing-item-img" src="../assets/flower_top.jpg" alt="">
