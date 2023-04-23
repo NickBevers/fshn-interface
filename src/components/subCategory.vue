@@ -39,7 +39,7 @@ onMounted(async () => {
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & Hoodies</p>
+            <p class="title">Sweatshirts & hoodies</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
@@ -47,7 +47,7 @@ onMounted(async () => {
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & Hoodies</p>
+            <p class="title">Sweatshirts & hoodies</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
@@ -55,7 +55,7 @@ onMounted(async () => {
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & Hoodies</p>
+            <p class="title">Sweatshirts & hoodies</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
@@ -63,7 +63,7 @@ onMounted(async () => {
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & Hoodies</p>
+            <p class="title">Sweatshirts & hoodies</p>
         </div>
     </div>
 
@@ -111,6 +111,8 @@ onMounted(async () => {
 
 .title {
     color: white;
+    text-transform: capitalize;
+    font-size: 1.2rem;
 }
 
 
