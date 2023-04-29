@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     // import components
-    import Navigation from './components/navComponent.vue';
-    import ClothingDetail from './components/clothingDetail.vue';
+    import Navigation from '../components/navComponent.vue';
+    import ClothingDetail from '../components/clothingDetail.vue';
 </script>
 
 <template>

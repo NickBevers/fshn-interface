@@ -1,8 +1,8 @@
 <script lang="ts" setup>
     // import components
-    import Navigation from './components/navComponent.vue';
-    import SubCategory from './components/subCategory.vue';
-    import ExploreItems from './components/exploreContent.vue';
+    import Navigation from '../components/navComponent.vue';
+    import SubCategory from '../components/subCategory.vue';
+    import ExploreItems from '../components/exploreContent.vue';
 </script>
 
 <template>

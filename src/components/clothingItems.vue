@@ -14,9 +14,9 @@
             <img class="clothing-item-img" src="../assets/pink_top.jpg" alt="">
         </div>
         <div class="clothing-item">
-            <a href="detail.html">
+            <router-link exact to="/Detail">  
                 <img class="clothing-item-img" src="../assets/black_top.jpg" alt="">
-            </a>            
+            </router-link>
         </div>
         <div class="clothing-item">
             <img class="clothing-item-img" src="../assets/flower_top.jpg" alt="">

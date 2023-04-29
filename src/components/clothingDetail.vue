@@ -51,7 +51,10 @@
                     Lorem ipsum dolor sit amet, consectetur odio adipiscing elit.
                     Nunc vulputate libero et velit elit interdum, ac aliquet odio mattis.
                 </p>
-                <a class="black_btn" href="cart.html">Add to Cart</a>
+                <router-link exact to="/">
+                    <a class="black_btn">Add to Cart</a>
+                </router-link>
+
             </div>
         </div>
     </div>
