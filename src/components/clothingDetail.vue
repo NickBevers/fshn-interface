@@ -7,7 +7,9 @@
 
         <div class="links">
             <div class="menu">
-                <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
+                <a @click="$router.back()">
+                    <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
+                </a>
             </div>
             <div class="map">
                 <router-link excat to="/">
