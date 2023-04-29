@@ -38,12 +38,8 @@ onMounted(async () => {
             <p class="title">Tops</p>
         </div>
         <div class="slider">
-            <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & hoodies</p>
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/tops.jpg" alt="">
-            <p class="title">Tops</p>
+            <img class="sub" src="../assets/dresses.png" alt="">
+            <p class="title">Dresses & jumpsuits</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
@@ -52,6 +48,10 @@ onMounted(async () => {
         <div class="slider">
             <img class="sub" src="../assets/tops.jpg" alt="">
             <p class="title">Tops</p>
+        </div>
+        <div class="slider">
+            <img class="sub" src="../assets/dresses.png" alt="">
+            <p class="title">Dresses & jumpsuits</p>
         </div>
         <div class="slider">
             <img class="sub" src="../assets/hoodies.png" alt="">
