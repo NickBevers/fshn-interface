@@ -6,13 +6,11 @@ import "@tensorflow/tfjs-backend-webgl";
 
 //  Define the props that the component will receive
 const props = defineProps<{ imgSrc: string, place: string, verticalOffset: number, horizontalOffset: number }>();
-console.log(props);
 const { imgSrc, place, verticalOffset, horizontalOffset } = toRefs(props);
 
 // Define the variables that will be used in the component
 const fps = 20;
 const cameraOffset = 80;
-console.log(place.value);
 const detectorConfig = {
     // modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
     modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
@@ -60,8 +58,6 @@ onMounted(async () => {
                     // set the width and height of the video
                     video!.width = width.ideal;
                     video!.height = height.ideal;
-
-                    console.log(width, height);
 
                     // start the drawing of the canvas when the video is loaded
                     drawCanvas();
@@ -162,7 +158,6 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
             distance = Math.sqrt(
                 Math.pow(leftShoulder.x - rightShoulder.x, 2) + Math.pow(leftShoulder.y - rightShoulder.y, 2)
             );
-            console.log(distance);
         } else if (place.value === "bottom") {
             distance = Math.sqrt(
                 Math.pow(rightHip.x - leftHip.x, 2) + Math.pow(rightHip.y - leftHip.y, 2)
@@ -192,7 +187,6 @@ const showClothes = (distance: number) => {
     let translation: {x: number, y: number};
 
     if (place.value === "top") {
-        console.log("top", distance);
         angle = Math.atan2(rightShoulder.y - leftShoulder.y, rightShoulder.x - leftShoulder.x) + Math.PI;
         translation = {x: leftShoulder.x, y: leftShoulder.y};
 
@@ -219,20 +213,32 @@ const showClothes = (distance: number) => {
     const newWidth = img.width * scale;
     const newHeight = img.height * scale;
 
-    // if (place.value === "top") {
-    //     verticalOffset.value = newHeight / 2;
-    // } else if (place.value === "bottom") {
-    //     verticalOffset.value = newHeight;
-    // }
+    if (img.width > canvas.width) {
+        ctx.drawImage(
+            img,
+            (-canvas.width * scale) - horizontalOffset.value * scale,
+            -verticalOffset.value,
+            newWidth,
+            newHeight
+        );
+    } else {
+        ctx.drawImage(
+            img,
+            -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
+            -verticalOffset.value,
+            newWidth,
+            newHeight
+        );
+    }
 
-    ctx.drawImage(
-        img,
-        // (-canvas.width * scale) - horizontalOffset.value * scale,
-        -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
-        -verticalOffset.value,
-        newWidth,
-        newHeight
-    );
+    // ctx.drawImage(
+    //     img,
+    //     // (-canvas.width * scale) - horizontalOffset.value * scale,
+    //     -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
+    //     -verticalOffset.value,
+    //     newWidth,
+    //     newHeight
+    // );
 
     // reset the canvas to its original state
     ctx.rotate(-angle!);
