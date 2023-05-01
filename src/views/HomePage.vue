@@ -2,13 +2,20 @@
 import Navigation from '../components/navMapping.vue'
 // Import the component MappingCanvas
 import MappingCanvas from "../components/mappingCanvas.vue";
+
+// const sweater: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "top" ,verticalOffset: 60, horizontalOffset: 250};
+const pants: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "bottom" ,verticalOffset: 40, horizontalOffset: 50};
+
 </script>
 
 <template>
     <Navigation/>
     <div class="content">
-        <!-- To implement it in any page, use the component and give it 1 prop (the path to the image it has to map.) -->
-        <MappingCanvas :img-src="'/src/assets/mapping/tshirt-black.png'" />
+        <!-- To implement it in any page, use the component and give it 4 props (the path to the image it has to map, the type of image (top or bottom), the verticalOfsset to the left shoulder and the horizontalOffset to the left shoulder) -->
+        <!-- <MappingCanvas :img-src="'/src/assets/mapping/pull.png'" :clothing-type="sweater.type" :vertical-offset="sweater.verticalOffset" :horizontal-offset="sweater.horizontalOffset" /> -->
+
+        <!-- Pants -->
+        <MappingCanvas :img-src="'/src/assets/mapping/pants.png'" :place="pants.type" :vertical-offset="pants.verticalOffset" :horizontal-offset="pants.horizontalOffset" />
     </div>
 
 </template>
