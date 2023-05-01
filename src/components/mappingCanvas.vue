@@ -5,23 +5,21 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 
 //  Define the props that the component will receive
-const props = defineProps<{ imgSrc: string }>();
-const { imgSrc } = toRefs(props);
+const props = defineProps<{ imgSrc: string, clothingType: string, verticalOffset: number, horizontalOffset: number }>();
+const { imgSrc, verticalOffset, horizontalOffset } = toRefs(props);
 
 // Define the variables that will be used in the component
 const fps = 20;
-const verticalOffset = 60;
-const horizontalOffset = 0;
-
 const detectorConfig = {
+    // modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
     modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
     enableTracking: true,
     trackerType: poseDetection.TrackerType.BoundingBox,
 };
 const img = new Image();
-img.src = imgSrc.value;
-let width: number; //640 - 1200 (real)
-let height: number; //480 - 675 (real)
+img.src = imgSrc.value
+const width: { min: number; ideal: number; max: number } = { min: 360, ideal: 720, max: 1080 }; //640 - 1200 (real)
+const height: { min: number; ideal: number; max: number } = { min: 640, ideal: 1280, max: 1920 }; //480 - 675 (real)
 let detector: poseDetection.PoseDetector;
 let stopDetecting = false;
 let clothing = true;
@@ -41,8 +39,8 @@ onMounted(async () => {
             .getUserMedia({
                 video: {
                     facingMode: "user",
-                    width: { min: 480, ideal: 720, max: 1080 },
-                    height: { min: 640, ideal: 1280, max: 1920 },
+                    width: width,
+                    height: height,
                 },
                 audio: false,
             })
@@ -54,12 +52,9 @@ onMounted(async () => {
                 video!.onloadedmetadata = () => {
                     video!.play();
 
-                    // set the width and height of the video and canvas
-                    width = 720;
-                    height = 1280;
-
-                    video!.width = width;
-                    video!.height = height;
+                    // set the width and height of the video
+                    video!.width = width.ideal;
+                    video!.height = height.ideal;
 
                     console.log(width, height);
 
@@ -83,8 +78,8 @@ const drawCanvas = () => {
     canvasContainer.style.height = `${height}px`;
     const canvas: HTMLCanvasElement = document.querySelector(".canvas--map") as HTMLCanvasElement;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width.ideal;
+    canvas.height = height.ideal;
 
     // draw the video on the canvas, but only if the video is not paused or ended
     // console.log(video);
@@ -126,8 +121,8 @@ const getPoses = async () => {
 const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
     const canvas: HTMLCanvasElement = document.querySelector(".canvas--clothes") as HTMLCanvasElement;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width.ideal;
+    canvas.height = height.ideal;
 
     //  filter out the keypoints with a score lower than 0.35 (the higher the score, the more confident the model is)
     const newKeypoints = keypoints.filter((keypoint) => keypoint.score! > 0.35);
@@ -138,7 +133,7 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
     newKeypoints.forEach((keypoint) => {
         ctx.beginPath();
         // keypoint.y = keypoint.y + verticalOffset * 2;
-        keypoint.y = keypoint.y * 2 - verticalOffset;
+        keypoint.y = keypoint.y * 2 - verticalOffset.value;
         keypoint.x = keypoint.x * 2 - canvas.width / 2;
         ctx.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
         if (keypoint.name === "right_shoulder") {
@@ -162,7 +157,9 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
 
     // if clothing is true, call the showTshirt function
     if (clothing && shoulderDistance !== 0) {
-        // console.log(shoulderDistance);
+        if (shoulderDistance < 0) {
+            shoulderDistance = shoulderDistance * -1;
+        }
         showClothes(shoulderDistance * 2);
     }
 };
@@ -172,12 +169,17 @@ const showClothes = (distance: number) => {
     // get the canvas and context and calculate the scale and angle
     const canvas: HTMLCanvasElement = document.querySelector(".canvas--clothes") as HTMLCanvasElement;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = width.ideal;
+    canvas.height = height.ideal;
 
     // calculate the scale and angle
-    const scale = distance / img.width;
-    const angle = Math.atan2(rightShoulder.y - leftShoulder.y, rightShoulder.x - leftShoulder.x) + Math.PI;
+    let scale = distance / img.width;
+    scale = scale * 0.95;
+    let angle = Math.atan2(rightShoulder.y - leftShoulder.y, rightShoulder.x - leftShoulder.x) + Math.PI;
+    // if the angle is upside down, rotate it 180 degrees
+    if (angle > Math.PI / 2 && angle < (Math.PI * 3) / 2) {
+        angle += Math.PI;
+    }
 
     // draw the clothng piece on the canvas (tshirt) and rotate it to the correct angle
     ctx.translate(leftShoulder.x, leftShoulder.y);
@@ -186,12 +188,12 @@ const showClothes = (distance: number) => {
     // calculate the new width and height and draw the image on the canvas
     const newWidth = img.width * scale;
     const newHeight = img.height * scale;
-
     ctx.drawImage(
         img,
         // -(canvas.width * scale * (1 + horizontalOffset / 200)),
-        -horizontalOffset - canvas.width * scale,
-        -verticalOffset,
+        (-canvas.width * scale) - horizontalOffset.value * scale,
+        // (-canvas.width * scale),
+        0,
         newWidth,
         newHeight
     );
@@ -224,9 +226,11 @@ const toggleShirt = () => {
     <video autoplay="true" class="cameraFeed"></video><br />
 
     <!-- Buttons below are not needed, but can be usefull in development -->
-    <button @click="startDetect()">Start detecting</button>
-    <button @click="stopDetect">Stop detecting</button>
-    <button @click="toggleShirt">Toggle tshirt</button>
+    <div class="button__container">
+        <button @click="startDetect()">Start detecting</button>
+        <button @click="stopDetect">Stop detecting</button>
+        <button @click="toggleShirt">Toggle tshirt</button>
+    </div>
 </template>
 
 <style scoped>
@@ -241,8 +245,7 @@ button {
 .canvasContainer {
     position: relative;
     width: 100%;
-    height: 100%;
-    /* height: clamp(480px, 100vh, 720px); */
+    height: clamp(640px, 100vh, 1280px);
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -260,5 +263,11 @@ button {
 
 .canvas--clothes {
     z-index: 2;
+}
+
+.button__container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
 }
 </style>
