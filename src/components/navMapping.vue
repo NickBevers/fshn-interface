@@ -7,7 +7,9 @@
         <div class="logo"></div>
         <div class="icons">
             <div class="menu">
-                <img src="../assets/arrow.svg" alt="Arrow icon">
+                <a @click="$router.back()">
+                    <img src="../assets/arrow.svg" alt="Arrow icon">
+                </a>
             </div>
             <div class="cart">
                <p class="size">Your recommended size: <b>M</b></p>

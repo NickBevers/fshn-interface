@@ -12,7 +12,8 @@
     },
     "dependencies": {
         "swiper": "^9.2.4",
-        "vue": "^3.2.45"
+        "vue": "^3.2.45",
+        "vue-router": "^4.1.6"
     },
     "devDependencies": {
         "@tensorflow-models/pose-detection": "^2.0.0",
