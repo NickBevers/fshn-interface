@@ -94,7 +94,7 @@
         width: 100%;
         border: solid 1px white;
         background-color: transparent;
-        padding: 14px 5px;
+        padding: 14px 0px;
         font-size: 1.2rem;
         cursor: pointer;
         text-align: center;
