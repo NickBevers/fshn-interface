@@ -3,10 +3,20 @@
 </script>
 
 <template>
-    <div class="link">
-        <a @click="$router.back()">
-            <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
-        </a>
+    <div class="links">
+        <div class="menu">
+            <a class="black_btn back_btn" @click="$router.back()">
+                <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
+                <p>Go Back</p>
+            </a>            
+        </div>
+
+        <div class="menu">
+            <a class="black_btn back_btn" @click="$router.back()">
+                <img class="filter" src="../assets/filter_icon.svg" alt="Arrow icon">
+                <p>Filters</p>
+            </a>
+        </div>
     </div>
 
     <div class="container">
@@ -41,6 +51,35 @@
 </template>
 
 <style scoped>
+    a {
+        color: white;
+    }
+
+    .links {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .black_btn {
+        display: block;
+        width: 100%;
+        border: solid 1px white;
+        background-color: transparent;
+        padding: 14px 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-align: center;
+        margin: 2rem 0;
+
+    }
+    .back_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0em 0.5rem;
+    }
 
     .link {
         display: flex;
@@ -48,9 +87,10 @@
     }
 
     .arrow {
+        width: 20%;
+    }
+    .filter {
         width: 100%;
-        height: 2rem;
-        object-fit: cover;
     }
     .container {
         display: grid;
