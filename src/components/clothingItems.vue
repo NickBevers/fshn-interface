@@ -1,4 +1,33 @@
 <script lang="ts" setup>
+    import { onMounted, ref } from 'vue';
+
+    const clothes:any = ref([]);
+
+    onMounted(() => {
+
+        fetch("https://fshn-backend.onrender.com/api/v1/clothing/category/ dresses", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                clothes.value = data.data;
+                //console.log(clothingData.clothingItems);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
+
 
 </script>
 
@@ -21,12 +50,13 @@
 
     <div class="container">
 
-        <div class="clothing-item">
+        <div v-for="clothing in clothes" :key="clothing._id" class="clothing-item">
             <router-link exact to="/Detail">  
-                <img class="clothing-item-img" src="../assets/green_dress.png" alt="">
+                <img class="clothing-item-img" v-bind:src="clothing.headImage" alt="">
             </router-link>
+            <p class="clothing-item-name">{{ clothing.name }}</p>
         </div>
-        <div class="clothing-item">
+        <!--<div class="clothing-item">
             <img class="clothing-item-img" src="../assets/red_dress.png" alt="">
         </div>
         <div class="clothing-item">
@@ -46,7 +76,7 @@
         </div>
         <div class="clothing-item">
             <img class="clothing-item-img" src="../assets/white_top.jpg" alt="">
-        </div>     
+        </div>   -->  
     </div>
 </template>
 
