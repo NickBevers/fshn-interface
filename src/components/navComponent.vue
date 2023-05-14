@@ -7,10 +7,12 @@
         <div class="logo"></div>
         <div class="icons">
             <div class="menu">
-                <img src="../assets/menu_icon.svg" alt="Hamburger menu icon">
+                <router-link exact to="/Explore">
+                    <img class="icon" src="../assets/home.svg" alt="Hamburger menu icon">
+                </router-link>
             </div>
             <div class="cart">
-                <img src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
+                <img class="icon" src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
             </div>
         </div>
     </nav>
@@ -44,6 +46,11 @@ nav {
     justify-content: space-between;
     align-items: center;
     padding: 0 40px;
+}
+
+.icon {
+    width: 80%;
+    height: 50px;
 }
 
 </style>
