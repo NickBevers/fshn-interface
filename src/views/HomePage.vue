@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import Navigation from '../components/navMapping.vue'
+import Navigation from '../components/navComponent.vue'
 // Import the component MappingCanvas
 import MappingCanvas from "../components/mappingCanvas.vue";
 </script>
