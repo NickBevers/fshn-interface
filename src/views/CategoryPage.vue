@@ -16,6 +16,6 @@
 
 <style scoped>
     .content {
-        margin-top: 250px;
+        margin-top: 10rem;
     }
 </style>

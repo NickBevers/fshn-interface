@@ -7,14 +7,10 @@
 
         <div class="links">
             <div class="menu">
-                <a @click="$router.back()">
+                <a class="black_btn back_btn" @click="$router.back()">
                     <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
+                    <p>Go Back</p>
                 </a>
-            </div>
-            <div class="map">
-                <router-link excat to="/">
-                    <a class="yellow_btn">Try On Virtually</a>
-                </router-link>
             </div>
         </div>
 
@@ -37,7 +33,7 @@
                 </div>
 
                 <div class="stock">
-                    <li class="stock-green">Stock</li>
+                    <li class="stock-green"> In stock</li>
                 </div>
 
                 <div>
@@ -68,6 +64,11 @@
             </div>
 
             <div class="item_desc">
+                <div class="map">
+                    <router-link excat to="/">
+                        <a class="yellow_btn">Try On Virtually</a>
+                    </router-link>
+                </div>
                 <router-link exact to="/">
                     <a class="black_btn">Add to Cart</a>
                 </router-link>
@@ -86,40 +87,66 @@
         color: white;
     }
 
+    /*BUTTONS*/
+
+    .black_btn {
+        display: block;
+        width: 100%;
+        border: solid 1px white;
+        background-color: transparent;
+        padding: 14px 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        text-align: center;
+        margin: 2rem 0;
+
+    }
+    .back_btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0em 0.5rem;
+    }
+    .yellow_btn{
+        display: block;
+        background-color: #FBC67A;
+        color: black;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.5rem;
+        font-weight: 400;
+        cursor: pointer;
+        text-align: center;
+    }
+
     .links {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 5rem;
     }
     
     .arrow {
-        width: 100%;
-        height: 2rem;
-        object-fit: cover;
+        width: 20%;
     }
 
     .images{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
     }
 
     .head_img{
-        width: 50%;
+        width: 100%;
         height: 100%;
         object-fit: cover;
         padding-bottom: 2rem;
-        padding-right: 1.5rem;
     }
 
     .sub_images{
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        justify-content: center;
-        align-items: center;
         gap: 2rem;
     }
 
@@ -127,14 +154,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-    }
-
-    .details{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding-top: 2rem;
     }
     .top_info {
         display: flex;
@@ -147,9 +166,12 @@
     .item_name {
         font-size: 2rem;
         font-weight: 400;
-        padding-bottom: 2rem;
         text-transform: uppercase;
     }
+
+    /*li::marker {
+        font-size: 2rem;
+    }*/
     .stock{
         display: flex;
         flex-direction: row;
@@ -159,17 +181,8 @@
     .stock-green {
         color: #62E457;
         font-weight: 300;
-        font-size: 1.2rem
-    }
-
-    .yellow_btn{
-        background-color: #FBC67A;
-        color: black;
-        border: none;
-        padding: 1rem 2rem;
-        font-size: 1.5rem;
-        font-weight: 400;
-        cursor: pointer;
+        font-size: 1.2rem;
+        text-transform: capitalize;
     }
 
     .item_preference{
@@ -178,6 +191,7 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: solid 1px slategrey;
+        margin-bottom: 4rem;
 
     }
 
@@ -219,18 +233,6 @@
         font-weight: 300;
         padding: 2rem 0;
         line-height: normal;
-    }
-
-    .black_btn {
-        display: block;
-        width: 100%;
-        border: solid 1px white;
-        background-color: transparent;
-        padding: 14px 5px;
-        font-size: 1.2rem;
-        cursor: pointer;
-        text-align: center;
-        margin: 5rem 0;
     }
 
 </style>

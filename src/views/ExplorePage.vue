@@ -20,7 +20,7 @@
 
 <style scoped>
     .content {
-        margin-top: 250px;
+        margin-top: 12rem;
     }
 
     .items {
