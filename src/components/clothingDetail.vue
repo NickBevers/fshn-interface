@@ -1,4 +1,36 @@
 <script lang="ts" setup>
+    import { onMounted, ref } from 'vue';
+
+    const clothingId = window.location.pathname.split("/")[2];
+    //console.log(clothingId);
+
+    const item = ref('');
+
+
+    onMounted(() => {
+
+        fetch(`https://fshn-backend.onrender.com/api/v1/clothing/${clothingId}`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                item.value = data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
 
 </script>
 
@@ -85,6 +117,9 @@
 
     a {
         color: white;
+    }
+    .container {
+        margin-top: 10rem;
     }
 
     /*BUTTONS*/

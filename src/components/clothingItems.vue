@@ -1,5 +1,6 @@
 <script lang="ts" setup>
     import { onMounted, ref } from 'vue';
+    import router from '../router';
 
     const clothes:any = ref([]);
 
@@ -28,6 +29,11 @@
             });
     });
 
+    function detailPage(id: string) {
+        console.log(id);
+        router.push({ name: "Detail", params: { id: id } });
+    }
+
 
 </script>
 
@@ -51,32 +57,10 @@
     <div class="container">
 
         <div v-for="clothing in clothes" :key="clothing._id" class="clothing-item">
-            <router-link exact to="/Detail">  
-                <img class="clothing-item-img" v-bind:src="clothing.headImage" alt="">
-            </router-link>
-            <p class="clothing-item-name">{{ clothing.name }}</p>
-        </div>
-        <!--<div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/red_dress.png" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/water_dress.png" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/black_dress.png" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/color_dress.png" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/pink_dress.png" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/black_piece.jpg" alt="">
-        </div>
-        <div class="clothing-item">
-            <img class="clothing-item-img" src="../assets/white_top.jpg" alt="">
-        </div>   -->  
+            <a @click="detailPage(clothing._id)">  
+                <img class="clothing-item-img" :src="clothing.headImage" alt="">
+            </a>
+        </div> 
     </div>
 </template>
 

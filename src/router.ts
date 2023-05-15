@@ -24,7 +24,7 @@ export default createRouter({
             component: Category
         },
         {
-            path: '/detail',
+            path: '/detail/:id',
             name: 'Detail', 
             component: Detail
         },
