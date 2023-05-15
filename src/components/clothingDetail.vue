@@ -4,7 +4,10 @@
     const clothingId = window.location.pathname.split("/")[2];
     //console.log(clothingId);
 
-    const item = ref('');
+    const item:any = ref('');
+    const sizes:any = ref([]);
+    const colors:any = ref([]);
+    const stock = ref('');
 
 
     onMounted(() => {
@@ -24,8 +27,12 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 item.value = data.data;
+                sizes.value = item.value.sizes;
+                colors.value = item.value.colors;
+                stock.value = item.value.stock;
+                console.log(stock.value);
             })
             .catch((error) => {
                 console.log(error);
@@ -47,7 +54,7 @@
         </div>
 
         <div class="images">
-            <img class="head_img" src="../assets/green_dress.jpg" alt="Clothing item image">
+            <img class="head_img" :src="item.headImage" alt="Clothing item image">
             <div class="sub_images">
                 <img class="sub_img" src="../assets/green_dress_model.jpg" alt="Clothing item image">
                 <img class="sub_img" src="../assets/green_dress_side.jpg" alt="Clothing item image">
@@ -60,17 +67,18 @@
 
             <div class="item_info">
                 <div class="top_info">
-                    <p class="item_name">Short silky dress</p>
-                    <p class="item_name">&euro;39,95</p>
+                    <p class="item_name">{{item.name}}</p>
+                    <p class="item_name">&euro;{{item.price}}</p>
                 </div>
 
                 <div class="stock">
-                    <li class="stock-green"> In stock</li>
+                    <li v-if="stock >= '1'"  class="stock-green"> In stock</li>
+                    <li v-else-if="stock <= '0'"  class="stock-red"> Out of stock</li>
                 </div>
 
                 <div>
                     <p class="description">
-                        Short dress with high neck and pleated detail with wrap. Long sleeves with cuff.
+                        {{item.description}}
                     </p>
                 </div>
 
@@ -78,18 +86,14 @@
                     <div class="dropdown">
                         <p class="label">Color</p>
                         <select id="color" name="color" >
-                            <option value="black">Green</option>
-                            <option value="white">White</option>
-                            <option value="red">Red</option>
+                            <option v-for="(color, key) in colors" :key="key" :value="key">{{ color }}</option>
                         </select>
                     </div>
 
                     <div class="dropdown">
                         <p class="label">Size</p>
                         <select id="size" name="size" >
-                            <option value="s">S</option>
-                            <option value="m">M</option>
-                            <option value="l">L</option>
+                            <option v-for="(size, key) in sizes" :key="key" :value="key">{{ size }}</option>
                         </select>
                     </div>
                 </div>
@@ -215,6 +219,13 @@
 
     .stock-green {
         color: #62E457;
+        font-weight: 300;
+        font-size: 1.2rem;
+        text-transform: capitalize;
+    }
+
+    .stock-red {
+        color: #E45757;
         font-weight: 300;
         font-size: 1.2rem;
         text-transform: capitalize;

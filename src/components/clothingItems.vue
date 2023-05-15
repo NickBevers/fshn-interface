@@ -22,7 +22,6 @@
             .then((data) => {
                 console.log(data);
                 clothes.value = data.data;
-                //console.log(clothingData.clothingItems);
             })
             .catch((error) => {
                 console.log(error);
