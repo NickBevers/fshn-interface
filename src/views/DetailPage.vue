@@ -142,7 +142,6 @@ onMounted(() => {
         cursor: pointer;
         text-align: center;
         margin: 2rem 0;
-
     }
     .back_btn {
         display: flex;

@@ -12,7 +12,9 @@
                 </router-link>
             </div>
             <div class="cart">
-                <img class="icon" src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
+                <router-link exact to="/cart">
+                    <img class="icon" src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
+                </router-link>                  
             </div>
         </div>
     </nav>

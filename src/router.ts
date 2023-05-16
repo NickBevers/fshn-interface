@@ -4,6 +4,7 @@ import Catalog from './views/CatalogPage.vue'
 import Category from './views/CategoryPage.vue'
 import Detail from './views/DetailPage.vue'
 import Explore from './views/ExplorePage.vue'
+import Cart from './views/CartPage.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -33,5 +34,10 @@ export default createRouter({
             name: 'Explore',
             component: Explore
         },
+        {
+            path: '/cart',
+            name: 'Cart',
+            component: Cart
+        }
     ]
 })
