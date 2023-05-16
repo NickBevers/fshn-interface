@@ -6,7 +6,7 @@
 
     onMounted(() => {
 
-        fetch("https://fshn-backend.onrender.com/api/v1/clothing/category/ dresses", {
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/ dresses`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
