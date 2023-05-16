@@ -268,6 +268,7 @@ onMounted(() => {
         padding: 0 3em 0 0;
         outline: none;
         padding-bottom: 1rem;
+        text-transform: capitalize;
     }
 
     option {
@@ -276,6 +277,7 @@ onMounted(() => {
         border: none;
         font-size: 1.5rem;
         margin-right: 2rem;
+        text-transform: capitalize;
     }
 
     .description{
