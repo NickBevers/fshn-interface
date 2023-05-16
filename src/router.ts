@@ -19,7 +19,7 @@ export default createRouter({
             component: Catalog
         },
         {
-            path: '/category', 
+            path: '/category/:name', 
             name: 'Category',
             component: Category
         },

@@ -1,14 +1,14 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
-    import Category from '../components/categoryComponent.vue';
+    import Items from '../components/clothingItems.vue';
 </script>
 
 <template>
     <Navigation/>
 
     <div class="content">
-        <Category/>
+        <Items/>
     </div>
 
 
