@@ -55,9 +55,12 @@ onMounted(async () => {
     });
 });
 
-function categoryPage(name: string) {
+function categoryPage(name:any) {
         console.log(name);
-        router.push({ name: "Category", params: { name: name } });
+        //split name
+        name = name.split(" &");
+        console.log(name);
+        router.push({ name: "Category", params: { name: name[0] } });
 }
 
 </script>
@@ -70,18 +73,6 @@ function categoryPage(name: string) {
                 <p class="title">{{category.name}}</p>
             </a>
         </div>
-        <!--<div class="slider">
-            <img class="sub" src="../assets/dresses.png" alt="">
-            <p class="title">Dresses & jumpsuits</p>
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & hoodies</p>
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/tops.jpg" alt="">
-            <p class="title">Tops</p>
-        </div>
         <div class="slider">
             <img class="sub" src="../assets/dresses.png" alt="">
             <p class="title">Dresses & jumpsuits</p>
@@ -90,14 +81,6 @@ function categoryPage(name: string) {
             <img class="sub" src="../assets/hoodies.png" alt="">
             <p class="title">Sweatshirts & hoodies</p>
         </div>
-        <div class="slider">
-            <img class="sub" src="../assets/tops.jpg" alt="">
-            <p class="title">Tops</p>
-        </div>
-        <div class="slider">
-            <img class="sub" src="../assets/hoodies.png" alt="">
-            <p class="title">Sweatshirts & hoodies</p>
-        </div>-->
     </div>
 
 </template>

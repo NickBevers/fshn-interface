@@ -4,9 +4,11 @@
 
     const clothes:any = ref([]);
 
+    const categoryName = window.location.pathname.split("/")[2];
+
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/ dresses`, {
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/${categoryName}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

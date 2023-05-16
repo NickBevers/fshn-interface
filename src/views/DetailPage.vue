@@ -4,7 +4,6 @@
     import { onMounted, ref } from 'vue';
 
     const clothingId = window.location.pathname.split("/")[2];
-    //console.log(clothingId);
 
     const item:any = ref('');
     const sizes:any = ref([]);
