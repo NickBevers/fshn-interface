@@ -3,8 +3,8 @@ import Navigation from '../components/navMapping.vue'
 // Import the component MappingCanvas
 import MappingCanvas from "../components/mappingCanvas.vue";
 
-const sweater: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "top" ,verticalOffset: 60, horizontalOffset: 220};
-// const pants: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "bottom" ,verticalOffset: 40, horizontalOffset: 50};
+const sweater: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "top" ,verticalOffset: 80, horizontalOffset: 220};
+// const pants: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "bottom" ,verticalOffset: 60, horizontalOffset: 50};
 
 </script>
 
