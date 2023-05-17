@@ -202,7 +202,6 @@ onMounted(() => {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        gap: 550px;
     }
 
     .item_name {

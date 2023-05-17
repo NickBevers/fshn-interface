@@ -112,7 +112,7 @@
         grid-template-columns: repeat(2, 1fr);
         padding-left: 100px;
         overflow-y: scroll;
-        height: 90rem;
+        height: 40rem;
     }
 
     ::-webkit-scrollbar {
@@ -134,6 +134,6 @@
     }
 
     .clothing-item-img {
-        width: 90%;
+        width: 100%;
     }
 </style>
