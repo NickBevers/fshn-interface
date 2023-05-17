@@ -91,7 +91,7 @@
 
     .item-title {
         text-transform: uppercase;
-        font-size: 4rem;
+        font-size: 2rem;
         font-weight: 700;
         margin-bottom: 1rem;
         line-height: 150%;
@@ -99,7 +99,7 @@
 
     .preference {
         text-transform: capitalize;
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
 
     .error {

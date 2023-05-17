@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // import the necessary functions and packages
-import { onMounted, ref } from "vue";
+import { onMounted, ref, Ref } from "vue";
 import router from "../router";
 
 

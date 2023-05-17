@@ -206,7 +206,7 @@ onMounted(() => {
     }
 
     .item_name {
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 400;
         text-transform: uppercase;
     }
@@ -280,7 +280,7 @@ onMounted(() => {
     }
 
     .description{
-        font-size: 2rem;
+        font-size: 1.5rem;
         font-weight: 300;
         padding: 2rem 0;
         line-height: normal;

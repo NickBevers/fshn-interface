@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
 
-    const clothes:any = ref([]);
+    const clothes:Ref = ref([]);
 
     const categoryName = window.location.pathname.split("/")[2];
 
@@ -112,7 +112,7 @@
         grid-template-columns: repeat(2, 1fr);
         padding-left: 100px;
         overflow-y: scroll;
-        height: 150rem;
+        height: 90rem;
     }
 
     ::-webkit-scrollbar {
@@ -130,8 +130,9 @@
     }
 
     .clothing-item {
-        padding-bottom: 90px;
+        padding-bottom: 40px;
     }
+
     .clothing-item-img {
         width: 90%;
     }
