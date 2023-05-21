@@ -1,14 +1,15 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
-    import Items from '../components/clothingItems.vue';
+    import BackButton from '../components/backButton.vue';
+
 </script>
 
 <template>
     <Navigation/>
 
     <div class="content">
-        <Items/>
+        <BackButton/>
     </div>
 
 
