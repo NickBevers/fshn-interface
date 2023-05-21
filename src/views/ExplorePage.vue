@@ -62,7 +62,7 @@
 </template>
 
 <style scoped>
-    a, p, h2, h3 {
+    a {
         color: white;
     }
     .content {
