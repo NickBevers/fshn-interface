@@ -11,12 +11,12 @@
         <div class="primary_category">
 
             <div class="category">
-                <img class="category_img" src="../assets/women_catagory.png" alt="">
+                <img class="category_img" src="../assets/collection_1.jpg" alt="">
                 <a class="black_btn" href="/"> women</a>
             </div>
 
             <div class="category">
-                <img class="category_img" src="../assets/men_category.png" alt="">
+                <img class="category_img" src="../assets/collection_1.jpg" alt="">
                 <a class="black_btn" href="/"> men</a>
             </div>
 
@@ -88,7 +88,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-
+        gap: 2rem;
     }
 
     .category_img {
