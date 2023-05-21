@@ -1,6 +1,7 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
+    import BackButton from '../components/backButton.vue';
     import { onMounted, ref } from 'vue';
 
     const clothingId = window.location.pathname.split("/")[2];
@@ -48,23 +49,14 @@ onMounted(() => {
 
     <div class="container">
 
-        <div class="links">
-            <div class="menu">
-                <a class="black_btn back_btn" @click="$router.back()">
-                    <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
-                    <p>Go Back</p>
-                </a>
-            </div>
-        </div>
+        <BackButton/>
 
         <div class="images">
-            <img class="head_img" :src="item.headImage" alt="Clothing item image">
             <div class="sub_images">
                 <img class="sub_img" src="../assets/green_dress_model.jpg" alt="Clothing item image">
                 <img class="sub_img" src="../assets/green_dress_side.jpg" alt="Clothing item image">
-                <img class="sub_img" src="../assets/green_dress_shoulder.jpg" alt="Clothing item image">
-                <img class="sub_img" src="../assets/green_dress_hip.jpg" alt="Clothing item image">
             </div>
+            <img class="head_img" :src="item.headImage" alt="Clothing item image">
         </div>
 
         <div class="details">
@@ -143,13 +135,6 @@ onMounted(() => {
         text-align: center;
         margin: 2rem 0;
     }
-    .back_btn {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 0.8rem;
-        padding: 0em 0.5rem;
-    }
     .yellow_btn{
         display: block;
         background-color: #FBC67A;
@@ -162,21 +147,11 @@ onMounted(() => {
         text-align: center;
     }
 
-    .links {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .arrow {
-        width: 20%;
-    }
-
     .images{
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 2rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 3rem;
+        padding-top: 1rem;
     }
 
     .head_img{
@@ -184,11 +159,12 @@ onMounted(() => {
         height: 100%;
         object-fit: cover;
         padding-bottom: 2rem;
+        grid-column: 2/span 2;
     }
 
     .sub_images{
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(1, 1fr);
         gap: 2rem;
     }
 
@@ -207,7 +183,7 @@ onMounted(() => {
     .item_name {
         font-size: 1.5rem;
         font-weight: 400;
-        text-transform: uppercase;
+        text-transform: capitalize;
     }
 
     /*li::marker {
@@ -223,7 +199,7 @@ onMounted(() => {
         color: #62E457;
         font-weight: 300;
         font-size: 1.2rem;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
     .stock-red {
