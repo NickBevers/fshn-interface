@@ -50,9 +50,9 @@
         <div class="secondary_category">
             <h2>More to explore</h2>
             <div class="categories">
-                <a class="black_btn" href="*">Women's tops</a>
-                <a class="black_btn" href="*">Women's trousers</a>
-                <a class="black_btn" href="*">Men's shirts</a>
+                <a class="black_btn category_btn" href="*">Women's tops</a>
+                <a class="black_btn category_btn" href="*">Women's trousers</a>
+                <a class="black_btn category_btn" href="*">Men's shirts</a>
             </div>
         </div>
 
@@ -105,14 +105,14 @@
     }
 
     .collections {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+
     }
 
     .collection_img {
-        width: 70%;
+        width: 100%;
     }
 
     .cta {
@@ -129,10 +129,12 @@
     }
 
     .categories{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 2rem;
+    }
+
+    .category_btn {
+        padding: 14px 5px;
     }
 </style>
