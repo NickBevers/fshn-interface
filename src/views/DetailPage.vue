@@ -98,7 +98,7 @@ onMounted(() => {
             <div class="item_desc">
                 <div class="map">
                     <router-link excat to="/">
-                        <a class="yellow_btn">Try On Virtually</a>
+                        <a class="white_btn">Try On Virtually</a>
                     </router-link>
                 </div>
                 <router-link exact to="/">
@@ -134,17 +134,19 @@ onMounted(() => {
         cursor: pointer;
         text-align: center;
         margin: 2rem 0;
+        text-transform: uppercase;
     }
-    .yellow_btn{
+    .white_btn{
         display: block;
-        background-color: #FBC67A;
+        background-color: white;
         color: black;
         border: none;
         padding: 1rem 2rem;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: 400;
         cursor: pointer;
         text-align: center;
+        text-transform: uppercase;
     }
 
     .images{
@@ -206,7 +208,7 @@ onMounted(() => {
         color: #E45757;
         font-weight: 300;
         font-size: 1.2rem;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
     .item_preference{
@@ -214,7 +216,6 @@ onMounted(() => {
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        border-bottom: solid 1px slategrey;
         margin-bottom: 4rem;
 
     }
@@ -224,25 +225,35 @@ onMounted(() => {
         flex-direction: row;
         justify-content: center;
         align-items: center;
-        gap: 5rem;
+        gap: 2.5rem;
+        border: solid 1px white;
+        padding: 0rem 2rem;
     }
 
     .label{
         font-size: 1.5rem;
         font-weight: 400;
-        padding-bottom: 1rem;
         color: slategrey;
+        text-transform: uppercase;
     }
 
     select {
+        /*Hide default dropdown arrow */
+        appearance: none;
+        -moz-appearance: none; /* Firefox */
+        -webkit-appearance: none; /* Safari and Chrome */
+        background-image: url(../assets/dropdown_arrow.svg);
+        background-repeat: no-repeat;
+        background-position-x: 95%;
+        background-position-y: 50%;
+        background-size: 1.5rem;
         color: white;
         background-color: transparent;
         border: none;
         font-size: 1.5rem;
         padding: 0 3em 0 0;
         outline: none;
-        padding-bottom: 1rem;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
     option {
@@ -251,7 +262,7 @@ onMounted(() => {
         border: none;
         font-size: 1.5rem;
         margin-right: 2rem;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
     .description{
