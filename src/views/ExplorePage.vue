@@ -1,6 +1,35 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
+
+    import { onMounted, ref, Ref } from 'vue';
+
+    const categories:Ref = ref([]);
+
+    onMounted(() => {
+
+    fetch(`${import.meta.env.VITE_API_URL}/categories/store/COS`, {
+        
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+        mode: "cors"
+        
+    }
+    )
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            //console.log(data);
+            categories.value = data.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
 </script>
 
 <template>
@@ -10,15 +39,15 @@
 
         <div class="primary_category">
 
-            <div class="category">
-                <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                <a class="black_btn" href="/"> women</a>
+            <div v-for="category in categories" :key="category._id" class="category">
+                <img class="category_img" :src="category.image" alt="">
+                <a class="black_btn" href="/"> {{category.name}}</a>
             </div>
 
-            <div class="category">
+            <!--<div class="category">
                 <img class="category_img" src="../assets/collection_1.jpg" alt="">
                 <a class="black_btn" href="/"> men</a>
-            </div>
+            </div>-->
 
         </div>
 
