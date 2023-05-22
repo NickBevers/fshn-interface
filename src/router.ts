@@ -15,6 +15,11 @@ export default createRouter({
             component: Home
         },
         {
+            path: '/explore', 
+            name: 'Explore',
+            component: Explore
+        },
+        {
             path: '/catalog/:name',
             name: 'Catalog', 
             component: Catalog
@@ -28,11 +33,6 @@ export default createRouter({
             path: '/detail/:id',
             name: 'Detail', 
             component: Detail
-        },
-        {
-            path: '/explore', 
-            name: 'Explore',
-            component: Explore
         },
         {
             path: '/cart',

@@ -6,30 +6,53 @@
     import router from '../router';
 
     const categories:Ref = ref([]);
+    const collections:Ref = ref([]);
 
     onMounted(() => {
 
-    fetch(`${import.meta.env.VITE_API_URL}/categories/store/COS`, {
+        fetch(`${import.meta.env.VITE_API_URL}/categories/store/COS`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data);
+                categories.value = data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        fetch(`${import.meta.env.VITE_API_URL}/collections/store/COS`, {
         
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-        },
-        mode: "cors"
-        
-    }
-    )
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            console.log(data);
-            categories.value = data.data;
-        })
-        .catch((error) => {
-            console.log(error);
-        });
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data);
+                collections.value = data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     });
 
     const categoryPage = (name: string) => {
@@ -56,21 +79,9 @@
             <h2>Summer 2023 collection</h2>
 
             <div class="collections">
-                <div class="collection">
-                    <img class="collection_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="collection_title">Women's linen edit</h3>
-                    <a class="cta" href="/">Shop now</a>
-                </div>
-
-                <div class="collection">
-                    <img class="collection_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="collection_title">Men's tailoring</h3>
-                    <a class="cta" href="/">Shop now</a>
-                </div>
-
-                <div class="collection">
-                    <img class="collection_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="collection_title">Summer in the city</h3>
+                <div  v-for="collection in collections" :key="collection._id" class="collection">
+                    <img class="collection_img" :src="collection.image" alt="">
+                    <h3 class="collection_title">{{collection.name}}</h3>
                     <a class="cta" href="/">Shop now</a>
                 </div>
             </div>
