@@ -3,6 +3,7 @@
     import Navigation from '../components/navComponent.vue';
 
     import { onMounted, ref, Ref } from 'vue';
+    import router from '../router';
 
     const categories:Ref = ref([]);
 
@@ -30,6 +31,11 @@
             console.log(error);
         });
     });
+
+    const categoryPage = (name: string) => {
+        console.log(name);
+        router.push({ name: "Category", params: { name: name } });
+    }
 </script>
 
 <template>
@@ -41,13 +47,8 @@
 
             <div v-for="category in categories" :key="category._id" class="category">
                 <img class="category_img" :src="category.image" alt="">
-                <a class="black_btn" href="/"> {{category.name}}</a>
+                <a class="black_btn" @click="categoryPage(category.name)" > {{category.name}}</a>
             </div>
-
-            <!--<div class="category">
-                <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                <a class="black_btn" href="/"> men</a>
-            </div>-->
 
         </div>
 
