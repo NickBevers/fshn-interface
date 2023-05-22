@@ -24,7 +24,7 @@
             return response.json();
         })
         .then((data) => {
-            //console.log(data);
+            console.log(data);
             categories.value = data.data;
         })
         .catch((error) => {
@@ -47,7 +47,7 @@
 
             <div v-for="category in categories" :key="category._id" class="category">
                 <img class="category_img" :src="category.image" alt="">
-                <a class="black_btn" @click="categoryPage(category.name)" > {{category.name}}</a>
+                <a class="black_btn" @click="categoryPage(category._id)" > {{category.name}}</a>
             </div>
 
         </div>

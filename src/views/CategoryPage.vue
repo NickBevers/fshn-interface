@@ -3,6 +3,37 @@
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
 
+    import { onMounted, ref, Ref } from 'vue';
+
+    const subcategories:Ref = ref([]);
+
+    const categoryID = window.location.pathname.split("/")[2];
+
+    onMounted(() => {
+
+        fetch(`${import.meta.env.VITE_API_URL}/subCategories/category/${categoryID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data);
+                subcategories.value = data.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        });
+
+
 </script>
 
 <template>
@@ -16,42 +47,10 @@
 
             <div class="categories">
 
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">New arrivals</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Dresses & jumpsuits</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Tops & t-shirts</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Trousers & shorts</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Shirts & blouses</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Skirts</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Knitwear</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Coats & jackets</h3>
-                 </div>
-                 <div class="category">
-                    <img class="category_img" src="../assets/collection_1.jpg" alt="">
-                    <h3 class="category_title">Suits & tailoring</h3>
-                 </div>
+                <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
+                    <img class="category_img" :src="subcategory.image" alt="">
+                    <h3 class="category_title">{{ subcategory.name }}</h3>
+                </div>
 
             </div>
 
