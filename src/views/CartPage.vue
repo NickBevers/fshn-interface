@@ -50,7 +50,7 @@
                 <p class="warning-text">Your order is placed online, checkout happens at the register</p>
             </div>
 
-            <router-link exact to="/">
+            <router-link exact to="/order">
                 <a class="black_btn">Place order</a>
             </router-link>
 
@@ -83,14 +83,14 @@
 
     .item {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10rem;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 4rem;
         margin-bottom: 4rem;
         border-bottom: solid 1px white;
     }
 
     .item-img{
-        width: 100%;
+        width: 80%;
         padding-bottom: 2rem;
     }
 
@@ -114,7 +114,7 @@
 
     .preference {
         text-transform: uppercase;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 
     .error {
@@ -126,7 +126,7 @@
     }
 
     .warning-text {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         line-height: 2rem;
     }
 
@@ -140,7 +140,7 @@
         cursor: pointer;
         text-align: center;
         margin: 2rem 0;
-        text-transform: capitalize;
+        text-transform: uppercase;
     }
 
 </style>
