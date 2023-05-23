@@ -2,44 +2,103 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
-    import { onMounted, ref } from 'vue';
+    import { onMounted, ref, Ref } from 'vue';
 
     const clothingId = window.location.pathname.split("/")[2];
 
-    const item:any = ref('');
-    const sizes:any = ref([]);
-    const colors:any = ref([]);
+    const item:Ref = ref('');
+    const sizes:Ref = ref([]);
+    const colors:Ref = ref([]);
     const stock = ref('');
 
+    const productID = ref('');
+    const storeID = localStorage.getItem("storeID");
 
-onMounted(() => {
 
-    fetch(`${import.meta.env.VITE_API_URL}/clothing/${clothingId}`, {
-        
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-        },
-        mode: "cors"
-        
+    onMounted(() => {
+
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/${clothingId}`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data.data._id);
+                item.value = data.data;
+                sizes.value = item.value.sizes;
+                colors.value = item.value.colors;
+                stock.value = item.value.stock;
+                productID.value = data.data._id;
+                //console.log(productID.value);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
+
+    const selectColor = (e: Event) => {
+        const color = e.target as HTMLInputElement;
+        const colorValue = color.value;
+        //console.log(colorValue);
+
+        localStorage.setItem("colorValue", colorValue);
     }
-    )
-        .then((response) => {
-            return response.json();
-        })
-        .then((data) => {
-            //console.log(data);
-            item.value = data.data;
-            sizes.value = item.value.sizes;
-            colors.value = item.value.colors;
-            stock.value = item.value.stock;
-            console.log(stock.value);
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-});
+
+    const selectSize = (e: Event) => {
+        const size = e.target as HTMLInputElement;
+        const sizeValue = size.value;
+        //console.log(sizeValue);
+
+        localStorage.setItem("sizeValue", sizeValue);
+    }
+
+    const orderColor = localStorage.getItem("colorValue");
+    const orderSize = localStorage.getItem("sizeValue");
+
+    const addToCart = () => {
+
+        const data = {
+            productId: productID.value,
+            storeId: storeID,
+            clientNumber: "1",
+            color: orderColor,
+            size: orderSize
+        }
+
+        fetch(`${import.meta.env.VITE_API_URL}/orders`, {
+            
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors",
+            body: JSON.stringify(data)
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                localStorage.removeItem("colorValue");
+                localStorage.removeItem("sizeValue");
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
 
 </script>
@@ -81,15 +140,15 @@ onMounted(() => {
                 <div class="item_preference">
                     <div class="dropdown">
                         <p class="label">Color</p>
-                        <select id="color" name="color" >
-                            <option v-for="(color, key) in colors" :key="key" :value="key">{{ color }}</option>
+                        <select id="color" name="color" @change="selectColor" >
+                            <option v-for="(color, key) in colors" :key="key" :value="color">{{ color }}</option>
                         </select>
                     </div>
 
                     <div class="dropdown">
                         <p class="label">Size</p>
-                        <select id="size" name="size" >
-                            <option v-for="(size, key) in sizes" :key="key" :value="key">{{ size }}</option>
+                        <select id="size" name="size" @change="selectSize" >
+                            <option v-for="(size, key) in sizes" :key="key" :value="size">{{ size }}</option>
                         </select>
                     </div>
                 </div>
@@ -101,9 +160,9 @@ onMounted(() => {
                         <a class="white_btn">Try On Virtually</a>
                     </router-link>
                 </div>
-                <router-link exact to="/">
-                    <a class="black_btn">Add to Cart</a>
-                </router-link>
+
+                <a class="black_btn" @click="addToCart" >Add to Cart</a>
+
             </div>
         </div>
     </div>
@@ -202,6 +261,7 @@ onMounted(() => {
         font-weight: 300;
         font-size: 1.2rem;
         text-transform: uppercase;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     .stock-red {
@@ -209,6 +269,7 @@ onMounted(() => {
         font-weight: 300;
         font-size: 1.2rem;
         text-transform: uppercase;
+        font-family: Arial, Helvetica, sans-serif;
     }
 
     .item_preference{

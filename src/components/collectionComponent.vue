@@ -19,6 +19,8 @@
             if (data.status === "success") {
                 const storeID = store.value = data.data.storeId;
 
+                localStorage.setItem("storeID", storeID);
+
                 getStore(storeID);
             } else {
                 console.log(data);
