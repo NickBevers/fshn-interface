@@ -1,49 +1,61 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
+    import BackButton from '../components/backButton.vue';
 </script>
 
 <template>
     <Navigation/>
+    <div class="container">
+        <BackButton/>
+        <div class="content">
+            <div class="title">
+                <h2 class="content_title"> Your cart</h2>
+            </div>
 
-    <div class="content">
-        <h1>Your cart</h1>
 
-        <div class="items">
-            <div class="item">
-                <img class="item-img" src="../assets/green_dress.png" alt="">
-                <div class="item-info">
-                    <h2 class="item-title">Short silky dress</h2>
-                    <div class="item-preferences">
-                        <p class="preference">Color: green</p>
-                        <p class="preference">Size: M</p>
+            <div class="items">
+                <div class="item">
+                    <img class="item-img" src="../assets/collection_1.jpg" alt="">
+                    <div class="item-info">
+                        <div>
+                            <h3 class="item-title">Short silky dress</h3>
+                            <p class="preference">&euro;35,95</p>
+                        </div>
+
+                        <div class="item-preferences">
+                            <p class="preference">Color: green</p>
+                            <p class="preference">Size: M</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="item">
+                    <img class="item-img" src="../assets/collection_1.jpg" alt="">
+                    <div class="item-info">
+                        <div>
+                            <h3 class="item-title">Short silky dress</h3>
+                            <p class="preference">&euro;35,95</p>
+                        </div>
+                        <div class="item-preferences">
+                            <p class="preference">Color: black</p>
+                            <p class="preference">Size: M</p>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="item">
-                <img class="item-img" src="../assets/water_dress.png" alt="">
-                <div class="item-info">
-                    <h2 class="item-title">Top with bare shoulders</h2>
-                    <div class="item-preferences">
-                        <p class="preference">Color: black</p>
-                        <p class="preference">Size: M</p>
-                    </div>
-                </div>
+            <div class="warning"> 
+                <h3 class="error">Attention!</h3>
+                <p class="warning-text">Your order is placed online, checkout happens at the register</p>
             </div>
+
+            <router-link exact to="/">
+                <a class="black_btn">Place order</a>
+            </router-link>
+
         </div>
-
-        <div class="warning"> 
-            <h3 class="error">Attention!</h3>
-            <p class="warning-text">Your order is placed online, checkout happens at the register</p>
-        </div>
-
-        <router-link exact to="/">
-                    <a class="black_btn">Place order</a>
-                </router-link>
-
     </div>
-
 
 </template>
 
@@ -52,32 +64,34 @@
         color: white;
     }
 
-    .content {
-        margin-top: 12rem;
-        padding-bottom: 12rem;
-        color: white;
+    .container {
+        margin-top: 8rem;
     }
 
-    h1 {
-        font-family: 'Helvetica', 'Arial', 'sans-serif';
-        font-size: 3rem;
-        font-weight: 400;
-        margin-bottom: 2rem;
-        color: white;
+    .title {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .content_title{
+        margin-bottom: 1.5625rem;
         text-transform: capitalize;
+        margin-bottom: 4rem;
     }
 
     .item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 2rem;
-        border-bottom: white 1px solid;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10rem;
+        margin-bottom: 4rem;
+        border-bottom: solid 1px white;
     }
 
     .item-img{
-        width: 40%
+        width: 100%;
+        padding-bottom: 2rem;
     }
 
     .item-info {
@@ -86,19 +100,20 @@
         align-items: flex-start;
         justify-content: space-between;
         margin-left: 2rem;
-        gap: 6rem;
+        padding-bottom: 1rem;
     }
 
     .item-title {
-        text-transform: uppercase;
-        font-size: 2rem;
+        text-transform: capitalize;
+        font-size: 1.5625rem;
         font-weight: 700;
         margin-bottom: 1rem;
         line-height: 150%;
+        margin-top: 0px;
     }
 
     .preference {
-        text-transform: capitalize;
+        text-transform: uppercase;
         font-size: 1.5rem;
     }
 
@@ -107,6 +122,7 @@
         font-weight: 400;
         font-size: 1.5rem;
         line-height: 2rem;
+        text-transform: uppercase;
     }
 
     .warning-text {
