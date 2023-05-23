@@ -9,10 +9,13 @@
     const clothes:Ref = ref([]);
 
     const categoryName = window.location.pathname.split("/")[2];
+    
+    const title = categoryName.split("%20").join(" ");
 
+    const name = "Dresses";
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/${categoryName}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/${name}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -26,7 +29,7 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 clothes.value = data.data;
             })
             .catch((error) => {
@@ -35,7 +38,7 @@
     });
 
     function detailPage(id: string) {
-        console.log(id);
+        //console.log(id);
         router.push({ name: "Detail", params: { id: id } });
     }
 </script>
@@ -57,7 +60,7 @@
 
 
         <div class="content">
-            <h2 class="content_title">{{ categoryName }}</h2>
+            <h2 class="content_title">{{ title }}</h2>
 
             <div class="categories">
 

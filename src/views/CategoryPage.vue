@@ -4,6 +4,7 @@
     import BackButton from '../components/backButton.vue';
 
     import { onMounted, ref, Ref } from 'vue';
+    import router from '../router';
 
     const subcategories:Ref = ref([]);
 
@@ -31,7 +32,12 @@
             .catch((error) => {
                 console.log(error);
             });
-        });
+    });
+
+    const catalogPage = (name: string) => {
+        //console.log(name);
+        router.push({ name: "Catalog", params: { name: name } });
+    }
 
 
 </script>
@@ -48,8 +54,10 @@
             <div class="categories">
 
                 <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
-                    <img class="category_img" :src="subcategory.image" alt="">
-                    <h3 class="category_title">{{ subcategory.name }}</h3>
+                    <a @click="catalogPage(subcategory.name)">
+                        <img class="category_img" :src="subcategory.image" alt="">
+                        <h3 class="category_title">{{ subcategory.name }}</h3>
+                    </a>
                 </div>
 
             </div>

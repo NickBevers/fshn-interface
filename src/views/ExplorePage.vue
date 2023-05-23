@@ -10,7 +10,7 @@
 
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/categories/store/COS`, {
+        fetch(`${import.meta.env.VITE_API_URL}/categories/store/646366bd6f26cb68777f8210`, {
             
             method: "GET",
             headers: {
@@ -32,7 +32,7 @@
                 console.log(error);
             });
 
-        fetch(`${import.meta.env.VITE_API_URL}/collections/store/COS`, {
+        fetch(`${import.meta.env.VITE_API_URL}/collections/store/646366bd6f26cb68777f8210`, {
         
             method: "GET",
             headers: {
@@ -56,7 +56,7 @@
     });
 
     const categoryPage = (name: string) => {
-        console.log(name);
+        //console.log(name);
         router.push({ name: "Category", params: { name: name } });
     }
 </script>
