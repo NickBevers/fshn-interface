@@ -61,7 +61,7 @@
     <h2>Summer 2023 collection</h2>
 
     <div class="collections">
-        <div  v-for="collection in collections" :key="collection._id" class="collection">
+        <div v-for="collection in collections" :key="collection._id" class="collection">
             <img class="collection_img" :src="collection.image" alt="">
             <h3 class="collection_title">{{collection.name}}</h3>
             <a class="cta" href="/">Shop now</a>

@@ -2,6 +2,81 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
+
+    import { onMounted, ref, Ref } from 'vue';
+
+    const orders:Ref = ref([]);
+    const productIds:Ref = ref([]);
+
+    /*const products:Ref = ref([]);
+    const names:Ref = ref([]);*/
+
+    onMounted(() => {
+
+        fetch(`${import.meta.env.VITE_API_URL}/carts/client/1`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data.data);
+                orders.value = data.data;
+                productIds.value = data.data.map((order:any) => order.productId);
+                //console.log(productIds.value);
+                
+
+                //getProductID(productIds.value);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
+
+    /*const getProductID = (productIds: string | any[]) => {
+        //loop over productIds
+        for (let i = 0; i < productIds.length; i++) {
+            const productId = productIds[i];
+
+            getProductInfo(productId);
+        }
+    }
+    const getProductInfo = (productId: Ref) => {
+
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/${productId}`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data.data);
+                products.value = (data.data);
+                names.value = products.value.name;
+                console.log(names.value);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }*/
+
 </script>
 
 <template>
@@ -15,22 +90,22 @@
 
 
             <div class="items">
-                <div class="item">
-                    <img class="item-img" src="../assets/collection_1.jpg" alt="">
-                    <div class="item-info">
+                <div v-for="order in orders" :key="order._id" class="item">
+                    <img class="item-img" :src="order.image" alt="">
+                    <div  class="item-info">
                         <div>
-                            <h3 class="item-title">Short silky dress</h3>
-                            <p class="preference">&euro;35,95</p>
+                            <h3 class="item-title">{{ order.name }}</h3>
+                            <p class="preference">&euro;{{ order.price }}</p>
                         </div>
 
                         <div class="item-preferences">
-                            <p class="preference">Color: green</p>
-                            <p class="preference">Size: M</p>
+                            <p class="preference">Color: {{order.color}}</p>
+                            <p class="preference">Size: {{order.size}}</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="item">
+                <!--<div class="item">
                     <img class="item-img" src="../assets/collection_1.jpg" alt="">
                     <div class="item-info">
                         <div>
@@ -42,7 +117,7 @@
                             <p class="preference">Size: M</p>
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
 
             <div class="warning"> 

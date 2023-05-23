@@ -71,10 +71,14 @@
             storeId: storeID,
             clientNumber: "1",
             color: orderColor,
-            size: orderSize
+            size: orderSize,
+            name: item.value.name,
+            price: item.value.price,
+            image: item.value.headImage
+            
         }
 
-        fetch(`${import.meta.env.VITE_API_URL}/orders`, {
+        fetch(`${import.meta.env.VITE_API_URL}/carts`, {
             
             method: "POST",
             headers: {
