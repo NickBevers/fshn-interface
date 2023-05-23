@@ -1,36 +1,13 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
+    import headCategories from '../components/headCategories.vue';
 
     import { onMounted, ref, Ref } from 'vue';
-    import router from '../router';
 
-    const categories:Ref = ref([]);
     const collections:Ref = ref([]);
 
     onMounted(() => {
-
-        fetch(`${import.meta.env.VITE_API_URL}/categories/store/646366bd6f26cb68777f8210`, {
-            
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-            },
-            mode: "cors"
-            
-        }
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                //console.log(data);
-                categories.value = data.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
 
         fetch(`${import.meta.env.VITE_API_URL}/collections/store/646366bd6f26cb68777f8210`, {
         
@@ -54,11 +31,6 @@
                 console.log(error);
             });
     });
-
-    const categoryPage = (name: string) => {
-        //console.log(name);
-        router.push({ name: "Category", params: { name: name } });
-    }
 </script>
 
 <template>
@@ -67,12 +39,7 @@
     <div class="content">
 
         <div class="primary_category">
-
-            <div v-for="category in categories" :key="category._id" class="category">
-                <img class="category_img" :src="category.image" alt="">
-                <a class="black_btn" @click="categoryPage(category._id)" > {{category.name}}</a>
-            </div>
-
+            <headCategories/>
         </div>
 
         <div class="collection_section">
