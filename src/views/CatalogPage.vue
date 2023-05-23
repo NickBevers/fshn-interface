@@ -51,11 +51,11 @@
             <BackButton/>
 
             <div class="menu">
-            <a class="black_btn back_btn" @click="$router.back()">
-                <img class="filter" src="../assets/filter_icon.svg" alt="Arrow icon">
-                <p>Filters</p>
-            </a>
-        </div>
+                <a class="black_btn back_btn">
+                    <img class="filter" src="../assets/filter_icon.svg" alt="Arrow icon">
+                    <p>Filters</p>
+                </a>
+            </div>
         </div>
 
 
