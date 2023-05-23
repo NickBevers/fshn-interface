@@ -2,6 +2,7 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import headCategories from '../components/headCategories.vue';
+    import collectionComponent from '../components/collectionComponent.vue';
 
     import { onMounted, ref, Ref } from 'vue';
 
@@ -43,15 +44,7 @@
         </div>
 
         <div class="collection_section">
-            <h2>Summer 2023 collection</h2>
-
-            <div class="collections">
-                <div  v-for="collection in collections" :key="collection._id" class="collection">
-                    <img class="collection_img" :src="collection.image" alt="">
-                    <h3 class="collection_title">{{collection.name}}</h3>
-                    <a class="cta" href="/">Shop now</a>
-                </div>
-            </div>
+            <collectionComponent/>
             
         </div>
 
@@ -99,10 +92,6 @@
         gap: 2rem;
     }
 
-    .category_img {
-        max-width: 100%;
-    }
-
     /*COLLECTION SECTION*/
     .collection_section {
         display: flex;
@@ -112,20 +101,6 @@
         margin-top: 2rem;
     }
 
-    .collections {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
-
-    }
-
-    .collection_img {
-        width: 100%;
-    }
-
-    .cta {
-        text-decoration: underline;
-    }
 
     /*SECONDARY CATEGORY*/
     .secondary_category {
