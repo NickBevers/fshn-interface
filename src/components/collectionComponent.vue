@@ -1,32 +1,58 @@
 <script lang="ts" setup>
     import { onMounted, ref, Ref } from 'vue';
 
+    const store = ref('');
     const collections:Ref = ref([]);
 
     onMounted(() => {
-
-        fetch(`${import.meta.env.VITE_API_URL}/collections/store/646366bd6f26cb68777f8210`, {
-
+        fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
             },
-            mode: "cors"
-            
-        }
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                //console.log(data);
-                collections.value = data.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+            mode: "cors" 
+        })
+        .then(response => response.json())
+        .then(data => {
+            //console.log(data);
+            if (data.status === "success") {
+                const storeID = store.value = data.data.storeId;
+
+                getStore(storeID);
+            } else {
+                console.log(data);
+                
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
     });
+
+    const getStore = (value:Ref) => {
+        fetch(`${import.meta.env.VITE_API_URL}/collections/store/${value}`, {
+        
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        },
+        mode: "cors"
+        
+    }
+    )
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            //console.log(data);
+            collections.value = data.data;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 </script>
 
 <template>

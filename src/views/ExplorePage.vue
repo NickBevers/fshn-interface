@@ -4,34 +4,7 @@
     import headCategories from '../components/headCategories.vue';
     import collectionComponent from '../components/collectionComponent.vue';
 
-    import { onMounted, ref, Ref } from 'vue';
 
-    const collections:Ref = ref([]);
-
-    onMounted(() => {
-
-        fetch(`${import.meta.env.VITE_API_URL}/collections/store/646366bd6f26cb68777f8210`, {
-        
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-            },
-            mode: "cors"
-            
-        }
-        )
-            .then((response) => {
-                return response.json();
-            })
-            .then((data) => {
-                //console.log(data);
-                collections.value = data.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
-    });
 </script>
 
 <template>

@@ -2,11 +2,37 @@
     import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
 
+    const store = ref('');
     const categories:Ref = ref([]);
 
     onMounted(() => {
+        fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors" 
+        })
+        .then(response => response.json())
+        .then(data => {
+            //console.log(data);
+            if (data.status === "success") {
+                const storeID = store.value = data.data.storeId;
 
-        fetch(`${import.meta.env.VITE_API_URL}/categories/store/646366bd6f26cb68777f8210`, {
+                getStore(storeID);
+            } else {
+                console.log(data);
+                
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    });
+
+    const getStore = (value:Ref) => {
+        fetch(`${import.meta.env.VITE_API_URL}/categories/store/${value}`, {
             
             method: "GET",
             headers: {
@@ -27,7 +53,7 @@
             .catch((error) => {
                 console.log(error);
             });
-    });
+    }
 
     const categoryPage = (name: string) => {
         //console.log(name);
