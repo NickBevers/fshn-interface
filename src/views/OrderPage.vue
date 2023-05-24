@@ -1,6 +1,37 @@
 <script lang="ts" setup>
-import Navigation from '../components/navComponent.vue'
+    import Navigation from '../components/navComponent.vue'
+    import { onMounted, ref, Ref } from 'vue';
 
+    localStorage.removeItem("productIds");
+
+    const order:Ref = ref('');
+
+    onMounted(() => {
+
+        fetch(`${import.meta.env.VITE_API_URL}/orders/number/448`, {
+            
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data.data);
+                order.value = data.data;
+                console.log(order.value);
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    });
 
 </script>
 
@@ -13,7 +44,7 @@ import Navigation from '../components/navComponent.vue'
             <div class="order_info">
                 <p class="order_text">Thank you for your order</p>
                 <p class="order_text">Your order number is 
-                    <span class="order_number">XXXX</span>
+                    <span class="order_number">{{order.orderNumber}}</span>
                 </p>
             </div>
 

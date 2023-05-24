@@ -5,7 +5,7 @@
 
     import { onMounted, ref, Ref } from 'vue';
 
-    const orders:Ref = ref([]);
+    const items:Ref = ref([]);
     const productIds:Ref = ref([]);
 
     localStorage.removeItem("colorValue");
@@ -33,8 +33,7 @@
                 return response.json();
             })
             .then((data) => {
-                //console.log(data.data);
-                orders.value = data.data;
+                items.value = data.data;
                 productIds.value = data.data.map((order:any) => order.productId);
                 //console.log(productIds.value);
                 
@@ -134,17 +133,17 @@
 
 
             <div class="items">
-                <div v-for="order in orders" :key="order._id" class="item">
-                    <img class="item-img" :src="order.image" alt="">
+                <div v-for="item in items" :key="item._id" class="item">
+                    <img class="item-img" :src="item.image" alt="">
                     <div  class="item-info">
                         <div>
-                            <h3 class="item-title">{{ order.name }}</h3>
-                            <p class="preference">&euro;{{ order.price }}</p>
+                            <h3 class="item-title">{{ item.name }}</h3>
+                            <p class="preference">&euro;{{ item.price }}</p>
                         </div>
 
                         <div class="item-preferences">
-                            <p class="preference">Color: {{order.color}}</p>
-                            <p class="preference">Size: {{order.size}}</p>
+                            <p class="preference">Color: {{item.color}}</p>
+                            <p class="preference">Size: {{item.size}}</p>
                         </div>
                     </div>
                 </div>
