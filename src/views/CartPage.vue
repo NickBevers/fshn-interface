@@ -8,6 +8,9 @@
     const orders:Ref = ref([]);
     const productIds:Ref = ref([]);
 
+    localStorage.removeItem("colorValue");
+    localStorage.removeItem("sizeValue");
+
     /*const products:Ref = ref([]);
     const names:Ref = ref([]);*/
 
@@ -105,19 +108,6 @@
                     </div>
                 </div>
 
-                <!--<div class="item">
-                    <img class="item-img" src="../assets/collection_1.jpg" alt="">
-                    <div class="item-info">
-                        <div>
-                            <h3 class="item-title">Short silky dress</h3>
-                            <p class="preference">&euro;35,95</p>
-                        </div>
-                        <div class="item-preferences">
-                            <p class="preference">Color: black</p>
-                            <p class="preference">Size: M</p>
-                        </div>
-                    </div>
-                </div>-->
             </div>
 
             <div class="warning"> 

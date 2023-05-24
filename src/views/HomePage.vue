@@ -12,7 +12,9 @@ import MappingCanvas from "../components/mappingCanvas.vue";
         <div class="links">
             <backButton/>
             <div class="menu">
-                <a class="white_btn">Try on the items in your cart</a>
+                <router-link exact to="/cart">
+                    <a class="white_btn">Try on the items in your cart</a>
+                </router-link>
             </div>
         </div>
 
