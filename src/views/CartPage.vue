@@ -11,6 +11,8 @@
     localStorage.removeItem("colorValue");
     localStorage.removeItem("sizeValue");
 
+    const storeID = localStorage.getItem("storeID");
+
     /*const products:Ref = ref([]);
     const names:Ref = ref([]);*/
 
@@ -37,7 +39,7 @@
                 //console.log(productIds.value);
                 
 
-                //getProductID(productIds.value);
+                getProductID(productIds.value);
 
             })
             .catch((error) => {
@@ -45,15 +47,19 @@
             });
     });
 
-    /*const getProductID = (productIds: string | any[]) => {
+    const getProductID = (productIds: string | any[]) => {
         //loop over productIds
         for (let i = 0; i < productIds.length; i++) {
             const productId = productIds[i];
+            console.log(productId);
 
-            getProductInfo(productId);
+            let test = [];
+            test = JSON.parse(localStorage.getItem("productIds") || "[]");
+            test.push(productId);
+            localStorage.setItem("productIds", JSON.stringify(test));
         }
     }
-    const getProductInfo = (productId: Ref) => {
+    /*const getProductInfo = (productId: Ref) => {
 
         fetch(`${import.meta.env.VITE_API_URL}/clothing/${productId}`, {
             
@@ -79,6 +85,41 @@
                 console.log(error);
             });
     }*/
+
+    const placeOrder = () => {
+
+        const ids = productIds.value = JSON.parse(localStorage.getItem("productIds") || "[]");
+
+        const data = {
+            productIds: ids,
+            storeId: storeID,
+            clientNumber: "1"            
+        }
+
+        fetch(`${import.meta.env.VITE_API_URL}/orders`, {
+            
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors",
+            body: JSON.stringify(data)
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+
+
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
 
 </script>
 
@@ -116,7 +157,7 @@
             </div>
 
             <router-link exact to="/order">
-                <a class="black_btn">Place order</a>
+                <a class="black_btn" @click="placeOrder">Place order</a>
             </router-link>
 
         </div>
