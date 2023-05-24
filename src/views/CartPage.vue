@@ -4,9 +4,11 @@
     import BackButton from '../components/backButton.vue';
 
     import { onMounted, ref, Ref } from 'vue';
+    import router from '../router';
 
     const items:Ref = ref([]);
     const productIds:Ref = ref([]);
+    const clientNumber = ref("");
 
     localStorage.removeItem("colorValue");
     localStorage.removeItem("sizeValue");
@@ -35,7 +37,8 @@
             .then((data) => {
                 items.value = data.data;
                 productIds.value = data.data.map((order:any) => order.productId);
-                //console.log(productIds.value);
+                clientNumber.value = data.data[0].clientNumber;
+                //console.log(clientNumber.value);
                 
 
                 getProductID(productIds.value);
@@ -112,12 +115,20 @@
             })
             .then((data) => {
                 console.log(data);
+                
+                orderPage(clientNumber.value);
 
 
             })
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    const orderPage = (clientNumber: string) => {
+        //console.log(name);
+        localStorage.removeItem("productIds");
+        router.push({ name: "Order", params: { clientNumber: clientNumber } });
     }
 
 </script>
@@ -155,9 +166,9 @@
                 <p class="warning-text">Your order is placed online, checkout happens at the register</p>
             </div>
 
-            <router-link exact to="/order">
+
                 <a class="black_btn" @click="placeOrder">Place order</a>
-            </router-link>
+
 
         </div>
     </div>

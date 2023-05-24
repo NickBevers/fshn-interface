@@ -2,13 +2,14 @@
     import Navigation from '../components/navComponent.vue'
     import { onMounted, ref, Ref } from 'vue';
 
-    localStorage.removeItem("productIds");
 
-    const order:Ref = ref('');
+    const order:Ref = ref("");
+
+    const clientNumber = window.location.pathname.split("/")[2];
 
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/orders/number/448`, {
+        fetch(`${import.meta.env.VITE_API_URL}/orders/client/${clientNumber}`, {
             
             method: "GET",
             headers: {
@@ -24,7 +25,7 @@
             })
             .then((data) => {
                 //console.log(data.data);
-                order.value = data.data;
+                order.value = data.data[0];
                 console.log(order.value);
 
             })
