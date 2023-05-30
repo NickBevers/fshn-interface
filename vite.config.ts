@@ -5,4 +5,11 @@ import vue from "@vitejs/plugin-vue";
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [ vue(), eslintPlugin() ],
+    assetsInclude: [ "./assets/**" ],
+    build: {
+        outDir: "dist",
+        emptyOutDir: true,
+        manifest: true,
+    },
+
 });
