@@ -3,7 +3,6 @@
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
     import { onMounted, ref, Ref } from 'vue';
-    import router from '../router';
 
     const clothingId = window.location.pathname.split("/")[2];
 

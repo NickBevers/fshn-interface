@@ -26,7 +26,7 @@
                 return response.json();
             })
             .then((data) => {
-                //console.log(data);
+                console.log(data);
                 subcategories.value = data.data;
             })
             .catch((error) => {
@@ -54,7 +54,7 @@
             <div class="categories">
 
                 <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
-                    <a @click="catalogPage(subcategory.name)">
+                    <a @click="catalogPage(subcategory._id)">
                         <img class="category_img" :src="subcategory.image" alt="">
                         <h3 class="category_title">{{ subcategory.name }}</h3>
                     </a>

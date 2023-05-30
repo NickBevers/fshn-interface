@@ -7,15 +7,34 @@
     import router from '../router';
 
     const clothes:Ref = ref([]);
+    const name = ref("");
 
-    const categoryName = window.location.pathname.split("/")[2];
-    
-    const title = categoryName.split("%20").join(" ");
+    const subcategoryID = window.location.pathname.split("/")[2];
 
-    const name = "Dresses";
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/clothing/category/${name}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/subCategories/${subcategoryID}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"
+            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                //console.log(data);
+                name.value = data.data.name;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/subcategory/${subcategoryID}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -60,7 +79,7 @@
 
 
         <div class="content">
-            <h2 class="content_title">{{ title }}</h2>
+            <h2 class="content_title">{{ name }}</h2>
 
             <div class="categories">
 
