@@ -183,7 +183,7 @@ const showClothes = (distance: number) => {
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
     canvas.width = width.ideal;
     canvas.height = height.ideal;
-    let angle;
+    let angle: number;
     let translation: {x: number, y: number};
 
     if (place.value === "top") {
