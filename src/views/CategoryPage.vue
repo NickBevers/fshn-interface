@@ -26,7 +26,7 @@
                 return response.json();
             })
             .then((data) => {
-                //console.log(data);
+                console.log(data);
                 subcategories.value = data.data;
             })
             .catch((error) => {
@@ -54,7 +54,7 @@
             <div class="categories">
 
                 <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
-                    <a @click="catalogPage(subcategory.name)">
+                    <a @click="catalogPage(subcategory._id)">
                         <img class="category_img" :src="subcategory.image" alt="">
                         <h3 class="category_title">{{ subcategory.name }}</h3>
                     </a>
@@ -74,16 +74,12 @@
         margin-top: 8rem;
     }
 
-    /*.content {
-        margin: 0 auto;
-        width: 90%;
-    }*/
-
     .content{
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        margin-top: 2rem;
     }
 
     .content_title{
@@ -93,6 +89,14 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
+        overflow-y: scroll;
+        max-height: 60rem;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    ::-webkit-scrollbar {
+        display: none;  /*Chrome, Safari, Opera*/
     }
 
     .category_img{

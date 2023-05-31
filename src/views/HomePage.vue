@@ -15,7 +15,7 @@ const sweater: {type: string, verticalOffset: number, horizontalOffset: number} 
         <div class="links">
             <backButton/>
             <div class="menu">
-                <router-link exact to="/cart">
+                <router-link exact to="/cart"> <!--if van maken items in cart show button-->
                     <a class="white_btn">Try on the items in your cart</a>
                 </router-link>
             </div>

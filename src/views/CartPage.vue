@@ -10,8 +10,6 @@
     const productIds:Ref = ref([]);
     const clientNumber = ref("");
 
-    localStorage.removeItem("colorValue");
-    localStorage.removeItem("sizeValue");
 
     const storeID = localStorage.getItem("storeID");
 
@@ -36,9 +34,11 @@
             })
             .then((data) => {
                 items.value = data.data;
-                productIds.value = data.data.map((order:any) => order.productId);
+                items.value.forEach((element: { productId: string; }) => {
+                    productIds.value.push(element.productId);
+                });
                 clientNumber.value = data.data[0].clientNumber;
-                //console.log(clientNumber.value);
+                console.log(clientNumber.value);
                 
 
                 getProductID(productIds.value);
@@ -49,16 +49,16 @@
             });
     });
 
-    const getProductID = (productIds: string | any[]) => {
+    const getProductID = (productIds: Array<string>) => {
         //loop over productIds
         for (let i = 0; i < productIds.length; i++) {
             const productId = productIds[i];
             console.log(productId);
 
-            let test = [];
-            test = JSON.parse(localStorage.getItem("productIds") || "[]");
-            test.push(productId);
-            localStorage.setItem("productIds", JSON.stringify(test));
+            let tempArr = [];
+            tempArr = localStorage.getItem("productIds")!.length > 0 ? JSON.parse(localStorage.getItem("productIds")!) : [];
+            tempArr.push(productId);
+            localStorage.setItem("productIds", JSON.stringify(tempArr));
         }
     }
     /*const getProductInfo = (productId: Ref) => {
@@ -143,7 +143,7 @@
             </div>
 
 
-            <div class="items">
+            <div class="items"> <!--zorgen da ge de button en warning nog steeds ziet en dat ge niet naar beneden moet scrollen-->
                 <div v-for="item in items" :key="item._id" class="item">
                     <img class="item-img" :src="item.image" alt="">
                     <div  class="item-info">
@@ -195,6 +195,16 @@
         margin-bottom: 1.5625rem;
         text-transform: capitalize;
         margin-bottom: 4rem;
+    }
+    .items {
+        overflow-y: scroll;
+        max-height: 50rem;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    ::-webkit-scrollbar {
+        display: none;  /*Chrome, Safari, Opera*/
     }
 
     .item {
