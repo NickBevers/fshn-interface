@@ -2,13 +2,19 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
-    import { onMounted, ref, Ref } from 'vue';
+    import selectItemDetail from '../components/selectItemDetail.vue';
+    import { onMounted, ref, Ref, watch } from 'vue';
+    import { storeToRefs } from 'pinia';
+    import { useOrderStore } from '../stores/order';
+    import router from '../router';
 
     const clothingId = window.location.pathname.split("/")[2];
+    const orderStore = useOrderStore();
+    const { color, size } = storeToRefs(orderStore);
+
+    const emit = defineEmits([ "getDetails" ]);
 
     const item:Ref = ref('');
-    const sizes:Ref = ref([]);
-    const colors:Ref = ref([]);
     const stock = ref('');
 
     const productID = ref('');
@@ -34,8 +40,6 @@
             .then((data) => {
                 //console.log(data.data._id);
                 item.value = data.data;
-                sizes.value = item.value.sizes;
-                colors.value = item.value.colors;
                 stock.value = item.value.stock;
                 productID.value = data.data._id;
                 //console.log(productID.value);
@@ -45,34 +49,36 @@
             });
     });
 
-    const selectColor = (e: Event) => {
+    /*const selectColor = (e: Event) => {
         const color = e.target as HTMLInputElement;
         const colorValue = color.value;
-        //console.log(colorValue);
+        console.log(colorValue);
 
-        localStorage.setItem("colorValue", colorValue);
+        orderStore.setColor(colorValue);
     }
 
     const selectSize = (e: Event) => {
         const size = e.target as HTMLInputElement;
         const sizeValue = size.value;
-        //console.log(sizeValue);
+        console.log(sizeValue);
 
-        localStorage.setItem("sizeValue", sizeValue);
-    }
-;
+        orderStore.setSize(sizeValue);
+    }*/
+
 
     const addToCart = () => {
 
-        const orderColor = localStorage.getItem("colorValue");
-        const orderSize = localStorage.getItem("sizeValue")
+        emit("getDetails", {
+            color: tempColor.value,
+            size: tempSize.value
+        });
 
         const data = {
             productId: productID.value,
             storeId: storeID,
             clientNumber: "1",
-            color: orderColor,
-            size: orderSize,
+            color: tempColor.value,
+            size: tempSize.value,
             name: item.value.name,
             price: item.value.price,
             image: item.value.headImage
@@ -96,13 +102,23 @@
             })
             .then((data) => {
                 console.log(data);
-
-
+                router.push({ name: "Order" });
             })
             .catch((error) => {
                 console.log(error);
             });
     }
+
+    const tempColor = ref('');
+    const tempSize = ref('');
+
+    watch(color, (value) => {
+        tempColor.value = value;
+    });
+
+    watch(size, (value) => {
+        tempSize.value = value;
+    });
 
 
 </script>
@@ -116,10 +132,10 @@
 
         <div class="images">
             <div class="sub_images">
-                <img class="sub_img" src="../assets/green_dress_model.jpg" alt="Clothing item image">
-                <img class="sub_img" src="../assets/green_dress_side.jpg" alt="Clothing item image">
+                <img class="sub_img" :src="item.modelImage2" alt="Clothing item image">
+                <img class="sub_img" :src="item.headImage" alt="Clothing item image">
             </div>
-            <img class="head_img" :src="item.headImage" alt="Clothing item image">
+            <img class="head_img" :src="item.modelImage" alt="Clothing item image">
         </div>
 
         <div class="details">
@@ -141,21 +157,10 @@
                     </p>
                 </div>
 
-                <div class="item_preference">
-                    <div class="dropdown">
-                        <p class="label">Color</p>
-                        <select id="color" name="color" @change="selectColor" >
-                            <option v-for="(color, key) in colors" :key="key" :value="color">{{ color }}</option>
-                        </select>
-                    </div>
-
-                    <div class="dropdown">
-                        <p class="label">Size</p>
-                        <select id="size" name="size" @change="selectSize" >
-                            <option v-for="(size, key) in sizes" :key="key" :value="size">{{ size }}</option>
-                        </select>
-                    </div>
+                <div>
+                    <selectItemDetail/>
                 </div>
+                    
             </div>
 
             <div class="item_desc">

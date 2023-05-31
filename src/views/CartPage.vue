@@ -10,8 +10,6 @@
     const productIds:Ref = ref([]);
     const clientNumber = ref("");
 
-    localStorage.removeItem("colorValue");
-    localStorage.removeItem("sizeValue");
 
     const storeID = localStorage.getItem("storeID");
 
