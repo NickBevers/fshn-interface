@@ -70,10 +70,10 @@
             <BackButton/>
 
             <div class="menu">
-                    <router-link exact to="/filter" class="black_btn back_btn">
-                        <img class="filter" src="../assets/filter_icon.svg" alt="Arrow icon">
-                        <p>Filters</p>
-                    </router-link>
+                <router-link exact to="/filter" class="black_btn back_btn">
+                    <img class="filter" src="../assets/filter_icon.svg" alt="Arrow icon">
+                    <p>Filters</p>
+                </router-link>
             </div>
         </div>
 

@@ -18,7 +18,7 @@
     const stock = ref('');
     const productID = ref('');
 
-    const productIDs:Ref = ref(['']);
+    const productIDs:Ref = ref([ '' ]);
     const storeID = localStorage.getItem("storeID");
 
 
