@@ -38,7 +38,7 @@
                     productIds.value.push(element.productId);
                 });
                 clientNumber.value = data.data[0].clientNumber;
-                //console.log(clientNumber.value);
+                console.log(clientNumber.value);
                 
 
                 getProductID(productIds.value);
@@ -195,6 +195,16 @@
         margin-bottom: 1.5625rem;
         text-transform: capitalize;
         margin-bottom: 4rem;
+    }
+    .items {
+        overflow-y: scroll;
+        max-height: 50rem;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    ::-webkit-scrollbar {
+        display: none;  /*Chrome, Safari, Opera*/
     }
 
     .item {

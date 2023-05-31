@@ -4,7 +4,8 @@ export const useOrderStore = defineStore({
     id: 'order',
     state: () => ({
         color: '',
-        size: ''
+        size: '',
+        productId: ['']
     }),
     actions: {
         setColor(color: string) {
@@ -12,6 +13,9 @@ export const useOrderStore = defineStore({
         },
         setSize(size: string) {
             this.size = size
+        },
+        setProductId(productId: string[]) {
+            this.productId = productId
         }
     },
     getters: {
@@ -20,6 +24,9 @@ export const useOrderStore = defineStore({
         },
         getSize():any {
             return this.size
+        },
+        getProductId():any {
+            return this.productId
         }
     }
 });

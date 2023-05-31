@@ -105,11 +105,6 @@
         margin-top: 8rem;
     }
 
-    /*.content {
-        margin: 0 auto;
-        width: 90%;
-    }*/
-
     .content{
         display: flex;
         flex-direction: column;
@@ -147,6 +142,14 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
+        overflow-y: scroll;
+        max-height: 60rem;
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    ::-webkit-scrollbar {
+        display: none;  /*Chrome, Safari, Opera*/
     }
 
     .category_img{

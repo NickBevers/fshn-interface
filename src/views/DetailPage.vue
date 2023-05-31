@@ -16,8 +16,9 @@
 
     const item:Ref = ref('');
     const stock = ref('');
-
     const productID = ref('');
+
+    const productIDs:Ref = ref(['']);
     const storeID = localStorage.getItem("storeID");
 
 
@@ -42,28 +43,14 @@
                 item.value = data.data;
                 stock.value = item.value.stock;
                 productID.value = data.data._id;
-                //console.log(productID.value);
+                productIDs.value.push(data.data._id);
+                orderStore.setProductId({...productIDs.value});
+                console.log(productIDs.value);
             })
             .catch((error) => {
                 console.log(error);
             });
     });
-
-    /*const selectColor = (e: Event) => {
-        const color = e.target as HTMLInputElement;
-        const colorValue = color.value;
-        console.log(colorValue);
-
-        orderStore.setColor(colorValue);
-    }
-
-    const selectSize = (e: Event) => {
-        const size = e.target as HTMLInputElement;
-        const sizeValue = size.value;
-        console.log(sizeValue);
-
-        orderStore.setSize(sizeValue);
-    }*/
 
 
     const addToCart = () => {
@@ -279,60 +266,6 @@
         font-size: 1.2rem;
         text-transform: uppercase;
         font-family: Arial, Helvetica, sans-serif;
-    }
-
-    .item_preference{
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 4rem;
-
-    }
-
-    .dropdown {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 2.5rem;
-        border: solid 1px white;
-        padding: 0rem 2rem;
-    }
-
-    .label{
-        font-size: 1.5rem;
-        font-weight: 400;
-        color: slategrey;
-        text-transform: uppercase;
-    }
-
-    select {
-        /*Hide default dropdown arrow */
-        appearance: none;
-        -moz-appearance: none; /* Firefox */
-        -webkit-appearance: none; /* Safari and Chrome */
-        background-image: url(../assets/dropdown_arrow.svg);
-        background-repeat: no-repeat;
-        background-position-x: 95%;
-        background-position-y: 50%;
-        background-size: 1.5rem;
-        color: white;
-        background-color: transparent;
-        border: none;
-        font-size: 1.5rem;
-        padding: 0 3em 0 0;
-        outline: none;
-        text-transform: uppercase;
-    }
-
-    option {
-        color: white;
-        background-color: black;
-        border: none;
-        font-size: 1.5rem;
-        margin-right: 2rem;
-        text-transform: uppercase;
     }
 
     .description{
