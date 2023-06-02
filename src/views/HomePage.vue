@@ -4,6 +4,14 @@ import backButton from '../components/backButton.vue'
 // Import the component MappingCanvas
 import MappingCanvas from "../components/mappingCanvas.vue";
 
+import router from '../router'
+
+const jwtToken = localStorage.getItem("jwtToken");
+
+if (!jwtToken) {
+    router.push("/login");
+}
+
 const sweater: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "top" ,verticalOffset: 60, horizontalOffset: 220};
 // const pants: {type: string, verticalOffset: number, horizontalOffset: number} = {type: "bottom" ,verticalOffset: 40, horizontalOffset: 50};
 

@@ -4,6 +4,14 @@
     import headCategories from '../components/headCategories.vue';
     import collectionComponent from '../components/collectionComponent.vue';
 
+    import router from '../router';
+
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+        router.push("/login");
+    }
+
 
 </script>
 

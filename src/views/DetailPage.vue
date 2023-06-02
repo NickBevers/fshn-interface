@@ -8,6 +8,12 @@
     import { useOrderStore } from '../stores/order';
     import router from '../router';
 
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+        router.push("/login");
+    }
+
     const clothingId = window.location.pathname.split("/")[2];
     const orderStore = useOrderStore();
     const { color, size } = storeToRefs(orderStore);

@@ -1,7 +1,15 @@
 <script lang="ts" setup>
     // import components
     import Navigation from '../components/navComponent.vue';
-    import backButton from '../components/backButton.vue'
+    import backButton from '../components/backButton.vue';
+
+    import router from '../router';
+    
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+        router.push("/login");
+    }
 
     oninput = (event: Event) => {
       const { value } = event.target as unknown as { value: number };

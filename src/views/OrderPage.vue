@@ -1,6 +1,13 @@
 <script lang="ts" setup>
     import Navigation from '../components/navComponent.vue'
     import { onMounted, ref, Ref } from 'vue';
+    import router from '../router';
+
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+        router.push("/login");
+    }
 
 
     const order:Ref = ref("");

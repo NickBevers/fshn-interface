@@ -63,7 +63,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        min-height: 80vh;
+        min-height: 90vh;
     }
 
     form {
@@ -80,12 +80,16 @@
     }
 
     input {
-        margin-bottom: 1rem;
+        margin-bottom: 2rem;
         border: 1px solid white;
         background-color: transparent;
         color: white;
         padding: 0.5rem;
         font-size: 1.5rem;
+    }
+
+    ::placeholder {
+        color: white;
     }
 
     .inputfield {

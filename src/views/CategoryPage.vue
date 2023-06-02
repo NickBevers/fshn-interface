@@ -6,6 +6,12 @@
     import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
 
+    const jwtToken = localStorage.getItem("jwtToken");
+
+    if (!jwtToken) {
+        router.push("/login");
+    }
+
     const subcategories:Ref = ref([]);
 
     const categoryID = window.location.pathname.split("/")[2];
