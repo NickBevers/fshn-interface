@@ -2,6 +2,38 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import backButton from '../components/backButton.vue'
+
+    oninput = (event: Event) => {
+      const { value } = event.target as unknown as { value: number };
+      setRate(value);
+    };
+
+    function setRate(value: number) {
+        const minPrice = document.querySelector(".min-price") as HTMLInputElement;
+        const maxPrice = document.querySelector(".max-price") as HTMLInputElement;
+        const minValue = document.querySelector("#min-value") as HTMLInputElement;
+        const maxValue = document.querySelector("#max-value") as HTMLInputElement;
+    
+        minPrice.value = value.toString();
+        minValue.innerHTML = `&euro;${value}`;
+
+        /*maxPrice.value = value.toString();
+        maxValue.innerHTML = `&euro;${value}`;*/
+    
+        if (parseInt(minPrice.value) > parseInt(maxPrice.value)) {
+            maxPrice.value = minPrice.value;
+            maxValue.innerHTML = `&euro;${value}`;
+        }
+        
+        /*if (parseInt(maxPrice.value) < parseInt(minPrice.value)) {
+            minPrice.value = maxPrice.value;
+            minValue.innerHTML = `&euro;${value}`;
+        }*/
+
+        //console.log(minPrice.value);
+
+    };
+
 </script>
 
 <template>
@@ -37,8 +69,21 @@
                     </div>
                 </div>
 
-                <div class="filter">
-                    <h3 class="filter_name">Prijs</h3>
+                <div class="filter filter_price">
+                    <div class="price">
+                        <h3 class="filter_name">Prijs</h3>
+                        <div class="range_values">
+                            <p id="min-value" class="range" >&euro;5</p>
+                            <p class="range">-</p>
+                            <p id="max-value" class="range" >&euro;35</p>
+                        </div>
+                    </div>
+
+                    <div class="slider">
+                        <input oninput type="range" class="min-price" value="5" min="5" max="500" step="5">
+                        <input oninputmax type="range" class="max-price" value="100" min="5" max="500" step="5">
+                    </div>
+
                 </div>
 
                 <div class="filter">
@@ -113,6 +158,7 @@
 
     .filter_name {
         font-size: 1.5rem;
+        font-weight: 700;
     }
 
     .filter_items{
@@ -124,6 +170,58 @@
     .filter_items_size{
         display: grid;
         grid-template-columns: repeat(4, 1fr);
+    }
+
+    .filter_price{
+        width: 100%;
+    }
+
+    .price {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .slider {
+        width: 100%;
+        position: relative;
+        margin: 15px 0 30px 0;
+    }
+
+    .range_values {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        background: transparent; 
+        position: absolute;
+        left: 0;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        height: 15px;
+        width: 15px;
+        background: white;
+        cursor: pointer;
+        margin-top: -5px;
+        position: relative;
+        z-index: 1;
+    }
+
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 5px;
+        background: #5C5F66;
+        border: none;
     }
     .color {
         display: flex;

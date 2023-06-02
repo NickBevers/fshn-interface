@@ -143,9 +143,12 @@
             </div>
 
 
-            <div class="items"> <!--zorgen da ge de button en warning nog steeds ziet en dat ge niet naar beneden moet scrollen-->
+            <div class="items">
                 <div v-for="item in items" :key="item._id" class="item">
-                    <img class="item-img" :src="item.image" alt="">
+                    <div>
+                        <img class="item-img" :src="item.image" alt="">
+                    </div>
+
                     <div  class="item-info">
                         <div>
                             <h3 class="item-title">{{ item.name }}</h3>
@@ -157,6 +160,9 @@
                             <p class="preference">Size: {{item.size}}</p>
                         </div>
                     </div>
+                    <a href="" class="black_btn remove" @click="removeItem">
+                        <p>Delete item</p>
+                    </a>
                 </div>
 
             </div>
@@ -165,11 +171,7 @@
                 <h3 class="error">Attention!</h3>
                 <p class="warning-text">Your order is placed online, checkout happens at the register</p>
             </div>
-
-
                 <a class="black_btn" @click="placeOrder">Place order</a>
-
-
         </div>
     </div>
 
@@ -267,6 +269,11 @@
         text-align: center;
         margin: 2rem 0;
         text-transform: uppercase;
+    }
+
+    .remove {
+        width: 80%;
+        margin-top: 0;
     }
 
 </style>
