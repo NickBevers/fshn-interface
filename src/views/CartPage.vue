@@ -131,6 +131,30 @@
         router.push({ name: "Order", params: { clientNumber: clientNumber } });
     }
 
+    const removeItem = (id: string) => {
+        fetch(`${import.meta.env.VITE_API_URL}/carts/${id}`, {
+            
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+            },
+            mode: "cors"            
+        }
+        )
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                router.go(0);
+                /*Fixen zodat er geen reload is.  */
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+
 </script>
 
 <template>
@@ -160,7 +184,7 @@
                             <p class="preference">Size: {{item.size}}</p>
                         </div>
                     </div>
-                    <a href="" class="black_btn remove" @click="removeItem">
+                    <a class="black_btn remove" @click="removeItem(item._id)">
                         <p>Delete item</p>
                     </a>
                 </div>
