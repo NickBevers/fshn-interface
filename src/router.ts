@@ -7,6 +7,7 @@ import Explore from './views/ExplorePage.vue'
 import Cart from './views/CartPage.vue'
 import Order from './views/OrderPage.vue'
 import Filter from './views/FilterPage.vue'
+import Login from './views/LoginPage.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -50,6 +51,11 @@ export default createRouter({
             path: '/filter',
             name: 'Filter',
             component: Filter
+        },
+        {
+            path: '/login',
+            name: 'Login',
+            component: Login
         }
     ]
 })
