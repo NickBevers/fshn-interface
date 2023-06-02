@@ -39,18 +39,18 @@
     <Navigation/>
     <div class="container">
         <form>
-            <div>
+            <div class="inputfield">
                 <label for="email">Email</label>
                 <input type="text" id="email" placeholder="Mail" v-model="email" >
             </div>
 
-            <div>
+            <div class="inputfield"> 
                 <label for="password">Password</label>
                 <input type="password" id="password" placeholder="Password" v-model="password" >
             </div>
 
-            <div>
-                <button type="submit" @click.prevent="login">Login</button>
+            <div class="submit">
+                <button class="submitBtn" type="submit" @click.prevent="login">Login</button>
             </div>
         </form>
     </div>  
@@ -59,6 +59,11 @@
 <style scoped>
     .container {
         margin-top: 8rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        min-height: 80vh;
     }
 
     form {
@@ -69,12 +74,43 @@
 
     label {
         color: white;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        text-transform: uppercase;
     }
 
     input {
         margin-bottom: 1rem;
         border: 1px solid white;
         background-color: transparent;
+        color: white;
+        padding: 0.5rem;
+        font-size: 1.5rem;
+    }
+
+    .inputfield {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .submit {
+        margin-top: 2rem;
+        width: 100%;
+    }
+
+    .submitBtn {
+        display: block;
+        background-color: white;
+        color: black;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        font-weight: 400;
+        cursor: pointer;
+        text-align: center;
+        text-transform: uppercase;
+        border-radius: 0;
+        width: 100%;
     }
 
 </style>
