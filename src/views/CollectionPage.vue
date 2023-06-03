@@ -11,14 +11,15 @@
     if (!jwtToken) {
         router.push("/login");
     }
+    
+    const collectionClothes:Ref = ref([]);
 
-    const subcategories:Ref = ref([]);
-
-    const categoryID = window.location.pathname.split("/")[2];
+    const collectionID = window.location.pathname.split("/")[2];
+    console.log(collectionID);
 
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/subCategories/category/${categoryID}`, {
+        fetch(`${import.meta.env.VITE_API_URL}/clothing/collection/${collectionID}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
@@ -33,18 +34,17 @@
             })
             .then((data) => {
                 console.log(data);
-                subcategories.value = data.data;
+                collectionClothes.value = data.data;
             })
             .catch((error) => {
                 console.log(error);
             });
     });
 
-    const catalogPage = (id: string) => {
-        //console.log(name);
-        router.push({ name: "Catalog", params: { id: id } });
+    function detailPage(id: string) {
+        //console.log(id);
+        router.push({ name: "Detail", params: { id: id } });
     }
-
 
 </script>
 
@@ -53,25 +53,21 @@
 
     <div class="container">
         <BackButton/>
-
         <div class="content">
-            <h2 class="content_title">Shop by Category</h2>
+            <h2 class="content_title">Shop by Collection</h2>
 
-            <div class="categories">
+            <div class="items">
 
-                <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
-                    <a @click="catalogPage(subcategory._id)">
-                        <img class="category_img" :src="subcategory.image" alt="">
-                        <h3 class="category_title">{{ subcategory.name }}</h3>
+                <div v-for="clothing in collectionClothes" :key="clothing._id" class="item">
+                    <a @click="detailPage(clothing._id)">
+                        <img class="clothing_img" :src="clothing.headImage" alt="">
+                        <h3 class="clothing_title">{{ clothing.name }}</h3>
                     </a>
                 </div>
 
             </div>
-
         </div>
-
     </div>
-
 
 </template>
 
@@ -85,13 +81,13 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-top: 2rem;
     }
 
     .content_title{
         margin-bottom: 1.5625rem;
+        text-transform: capitalize;
     }
-    .categories{
+    .items{
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
@@ -105,12 +101,13 @@
         display: none;  /*Chrome, Safari, Opera*/
     }
 
-    .category_img{
+    .clothing_img{
         width: 100%;
     }
 
-    .category_title {
+    .clothing_title {
         font-size: 1rem;
         text-transform: capitalize;
     }
+
 </style>

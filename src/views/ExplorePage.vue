@@ -25,8 +25,7 @@
         </div>
 
         <div class="collection_section">
-            <collectionComponent/>
-            
+            <collectionComponent/>            
         </div>
 
         <div class="secondary_category">
@@ -49,7 +48,6 @@
     }
     .content {
         margin-top: 12rem;
-
     }
 
     .black_btn {

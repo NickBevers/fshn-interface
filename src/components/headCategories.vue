@@ -55,9 +55,9 @@
             });
     }
 
-    const categoryPage = (name: string) => {
+    const categoryPage = (id: string) => {
         //console.log(name);
-        router.push({ name: "Category", params: { name: name } });
+        router.push({ name: "Category", params: { id: id } });
     }
 </script>
 

@@ -8,6 +8,7 @@ import Cart from './views/CartPage.vue'
 import Order from './views/OrderPage.vue'
 import Filter from './views/FilterPage.vue'
 import Login from './views/LoginPage.vue'
+import Collection from './views/CollectionPage.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -23,12 +24,12 @@ export default createRouter({
             component: Explore
         },
         {
-            path: '/catalog/:name',
+            path: '/catalog/:id',
             name: 'Catalog', 
             component: Catalog
         },
         {
-            path: '/category/:name', 
+            path: '/category/:id', 
             name: 'Category',
             component: Category
         },
@@ -56,6 +57,11 @@ export default createRouter({
             path: '/login',
             name: 'Login',
             component: Login
+        },
+        {
+            path: '/collection/:id',
+            name: 'Collection',
+            component: Collection
         }
     ]
 })

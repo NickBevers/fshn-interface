@@ -6,12 +6,12 @@
     <nav>
         <div class="icons">
             <div class="menu">
-                <router-link exact to="/Explore">
+                <router-link exact to="/explore">
                     <img class="icon" src="../assets/home.svg" alt="Hamburger menu icon">
                 </router-link>
             </div>
             <div class="logo">
-                <router-link exact to="/Explore">
+                <router-link exact to="/explore">
                     <img class="icon" src="../assets/FSHN.svg" alt="FSHN logo">
                 </router-link>
             </div>

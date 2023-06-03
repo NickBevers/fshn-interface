@@ -41,12 +41,12 @@
         <form>
             <div class="inputfield">
                 <label for="email">Email</label>
-                <input type="text" id="email" placeholder="Mail" v-model="email" >
+                <input id="email" v-model="email" type="text"  placeholder="Mail">
             </div>
 
             <div class="inputfield"> 
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Password" v-model="password" >
+                <input id="password" v-model="password" type="password" placeholder="Password">
             </div>
 
             <div class="submit">

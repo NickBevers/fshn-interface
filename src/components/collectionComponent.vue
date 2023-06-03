@@ -1,5 +1,6 @@
 <script lang="ts" setup>
     import { onMounted, ref, Ref } from 'vue';
+    import router from '../router';
 
     const store = ref('');
     const collections:Ref = ref([]);
@@ -55,6 +56,10 @@
             console.log(error);
         });
     }
+
+    const collectionPage = (id: string) => {
+        router.push({ name: "Collection", params: { id: id } });
+    }
 </script>
 
 <template>
@@ -64,7 +69,7 @@
         <div v-for="collection in collections" :key="collection._id" class="collection">
             <img class="collection_img" :src="collection.image" alt="">
             <h3 class="collection_title">{{collection.name}}</h3>
-            <a class="cta" href="/">Shop now</a>
+            <a class="cta" @click="collectionPage(collection._id)">Shop now</a>
         </div>
     </div>
 
