@@ -183,7 +183,7 @@
                         <img class="item-img" :src="item.image" alt="">
                     </div>
 
-                    <div  class="item-info">
+                    <div class="item-info">
                         <div>
                             <h3 class="item-title">{{ item.name }}</h3>
                             <p class="preference">&euro;{{ item.price }}</p>
