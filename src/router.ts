@@ -9,6 +9,7 @@ import Order from './views/OrderPage.vue'
 import Filter from './views/FilterPage.vue'
 import Login from './views/LoginPage.vue'
 import Collection from './views/CollectionPage.vue'
+import TryonCart from './views/TryonCartPage.vue'
 
 export default createRouter({
     history: createWebHistory(),
@@ -62,6 +63,11 @@ export default createRouter({
             path: '/collection/:id',
             name: 'Collection',
             component: Collection
+        },
+        {
+            path: '/tryoncart',
+            name: 'TryonCart',
+            component: TryonCart
         }
     ]
 })

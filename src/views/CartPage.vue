@@ -39,6 +39,7 @@
                 return response.json();
             })
             .then((data) => {
+                console.log(data.data);
                 items.value = data.data;
                 items.value.forEach((element: { productId: string; }) => {
                     productIds.value.push(element.productId);
@@ -58,13 +59,16 @@
     const getProductID = (productIds: Array<string>) => {
         //loop over productIds
         for (let i = 0; i < productIds.length; i++) {
-            const productId = productIds[i];
-            console.log(productId);
+            //const productId = productIds[i];
+            console.log(productIds);
 
-            let tempArr = [];
-            tempArr = localStorage.getItem("productIds")!.length > 0 ? JSON.parse(localStorage.getItem("productIds")!) : [];
-            tempArr.push(productId);
-            localStorage.setItem("productIds", JSON.stringify(tempArr));
+            placeOrder(productIds);
+
+            //make productid array
+            
+            //productIds.values.push(productId);
+            
+            //placeOrder(productIds.values);
         }
     }
     /*const getProductInfo = (productId: Ref) => {
@@ -94,9 +98,9 @@
             });
     }*/
 
-    const placeOrder = () => {
+    const placeOrder = (productIds: string[]) => {
 
-        const ids = productIds.value = JSON.parse(localStorage.getItem("productIds") || "[]");
+        const ids = productIds.values;
 
         const data = {
             productIds: ids,
@@ -133,8 +137,8 @@
 
     const orderPage = (clientNumber: string) => {
         //console.log(name);
-        localStorage.removeItem("productIds");
-        router.push({ name: "Order", params: { clientNumber: clientNumber } });
+        //localStorage.removeItem("productIds");
+        //router.push({ name: "Order", params: { clientNumber: clientNumber } });
     }
 
     const removeItem = (id: string) => {

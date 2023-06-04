@@ -15,6 +15,7 @@
     }
 
     const clothingId = window.location.pathname.split("/")[2];
+    
     const orderStore = useOrderStore();
     const { color, size } = storeToRefs(orderStore);
 

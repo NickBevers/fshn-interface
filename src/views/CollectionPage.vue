@@ -33,7 +33,7 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                //console.log(data);
                 collectionClothes.value = data.data;
             })
             .catch((error) => {
