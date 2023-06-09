@@ -7,6 +7,8 @@
     const email = ref('');
     const password = ref('');
 
+    const clientNumber = localStorage.getItem("clientNumber");
+
     const login = () => {
         fetch(`${import.meta.env.VITE_API_URL}/users/login`, {
             method: "POST",
@@ -22,7 +24,11 @@
         .then(data => {
             console.log(data);
             if (data.status === "success") {
-                console.log("success");
+                //console.log("success");
+                if (clientNumber === null) {
+                    const newClientNumber:any = Math.floor(Math.random() * 1000000000);
+                    localStorage.setItem("clientNumber", newClientNumber);
+                }
                 localStorage.setItem("jwtToken", data.token);
                 router.push("/explore")
             } else {
