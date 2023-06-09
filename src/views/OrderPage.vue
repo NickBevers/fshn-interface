@@ -31,7 +31,7 @@
                 return response.json();
             })
             .then((data) => {
-                //console.log(data.data);
+                console.log(data.data);
                 order.value = data.data[0];
                 console.log(order.value);
 
@@ -40,6 +40,13 @@
                 console.log(error);
             });
     });
+
+    const newClient = () => {
+        //generate new client number
+        const newClientNumber:any = Math.floor(Math.random() * 1000000000);
+        localStorage.setItem("clienNumber", newClientNumber);
+        router.push("/explore");
+    }
 
 </script>
 
@@ -59,8 +66,14 @@
             <div class="order_checkout">
                 <p class="order_text">Please go to the register to checkout</p>
             </div>
+            <div>
+                <a @click="newClient">Button</a>
+            </div>
         </div>
+
     </div>
+
+
 
 </template>
 
