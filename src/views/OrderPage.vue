@@ -9,7 +9,6 @@
         router.push("/login");
     }
 
-
     const order:Ref = ref("");
 
     const clientNumber = window.location.pathname.split("/")[2];
@@ -79,9 +78,6 @@
         </div>
 
     </div>
-
-
-
 </template>
 
 <style scoped>
