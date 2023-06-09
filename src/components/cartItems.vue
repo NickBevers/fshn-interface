@@ -39,7 +39,12 @@
                 //get prices
                 items.value.forEach((element: { price: number;}) => {
                     amount.value.push(element.price);
-                });              
+                });    
+                
+                //check if there are items in the cart
+                if (items.value.length === 0) {
+                    console.log("no items in cart");
+                }
 
                 getProductID(productIds.value);
                 getPrices(amount.value);

@@ -3,6 +3,8 @@
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
     import Items from '../components/cartItems.vue';
+    import EmptyCart from '../components/emptyCart.vue';
+
     import { storeToRefs } from "pinia";
     import { useOrderStore } from '../stores/order';
 
@@ -89,6 +91,7 @@
 
             <div class="items">
                 <Items />
+                <EmptyCart/>
             </div>
 
             <div class="warning"> 
