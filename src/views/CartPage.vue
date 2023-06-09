@@ -51,11 +51,11 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
-                
-                orderPage(clientNumber);
-
-
+                if (data.status === "success") {
+                    orderPage(clientNumber);
+                } else {
+                    console.log("error");
+                }
             })
             .catch((error) => {
                 console.log(error);
@@ -89,7 +89,7 @@
             </div>
 
             <div class="items">
-                <Items />
+                <Items/>
             </div>
 
             <div class="warning"> 

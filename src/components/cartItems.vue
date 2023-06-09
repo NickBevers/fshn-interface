@@ -31,6 +31,7 @@
                 return response.json();
             })
             .then((data) => {
+                
                 items.value = data.data;
                 items.value.forEach((element: { productId: string;}) => {
                     productIds.value.push(element.productId);
@@ -103,7 +104,6 @@
         <EmptyCart/>
     </div>
     <div v-else-if="empty === false" v-for="item in items" :key="item._id" class="item">
-
         <div>
             <img class="item-img" :src="item.image" alt="">
         </div>
