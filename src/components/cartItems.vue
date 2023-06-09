@@ -1,5 +1,6 @@
 <script lang="ts" setup>
     import { useOrderStore } from '../stores/order';
+    import EmptyCart from '../components/emptyCart.vue';
 
     import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
@@ -8,7 +9,7 @@
 
     const items:Ref = ref([]);
     const productIds:Ref = ref([]);
-    const amount:Ref = ref([]);
+    const amount:Ref = ref([]); 
 
     const clientNumber = localStorage.getItem("clientNumber");
 
@@ -29,7 +30,6 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data.data.price);
                 items.value = data.data;
                 items.value.forEach((element: { productId: string;}) => {
                     productIds.value.push(element.productId);
@@ -40,11 +40,6 @@
                 items.value.forEach((element: { price: number;}) => {
                     amount.value.push(element.price);
                 });    
-                
-                //check if there are items in the cart
-                if (items.value.length === 0) {
-                    console.log("no items in cart");
-                }
 
                 getProductID(productIds.value);
                 getPrices(amount.value);
@@ -64,7 +59,6 @@
     }
 
     const getPrices = (amount: Array<number>) => {
-        console.log(amount);
         let total = 0;
         for (let i = 0; i < amount.length; i++) {
             total += amount[i];
@@ -98,7 +92,11 @@
 </script>
 
 <template>
+    <div v-if="items.value === undefined">
+        <EmptyCart/>
+    </div>
     <div v-for="item in items" :key="item._id" class="item">
+
         <div>
             <img class="item-img" :src="item.image" alt="">
         </div>

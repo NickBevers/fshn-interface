@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+    import router from '../router';
+
+    const explore = () => {
+        router.push("/explore");
+    }
 
 </script>
 
@@ -13,7 +18,7 @@
             </div>
 
             <div class="button">
-                <a class="black_btn">Start exploring</a>
+                <a @click="explore" class="black_btn">Start exploring</a>
             </div>
         </div>
 
