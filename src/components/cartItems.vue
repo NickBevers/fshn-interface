@@ -10,6 +10,7 @@
     const items:Ref = ref([]);
     const productIds:Ref = ref([]);
     const amount:Ref = ref([]); 
+    const empty = ref(false);
 
     const clientNumber = localStorage.getItem("clientNumber");
 
@@ -35,11 +36,17 @@
                     productIds.value.push(element.productId);
 
                 });
-
                 //get prices
                 items.value.forEach((element: { price: number;}) => {
                     amount.value.push(element.price);
                 });    
+
+                //check if cart is empty
+                if (items.value.length === 0) {
+                    empty.value = true;
+                } else {
+                    empty.value = false;
+                }
 
                 getProductID(productIds.value);
                 getPrices(amount.value);
@@ -92,10 +99,10 @@
 </script>
 
 <template>
-    <div v-if="items.value === undefined">
+    <div v-if="empty === true">
         <EmptyCart/>
     </div>
-    <div v-for="item in items" :key="item._id" class="item">
+    <div v-else-if="empty === false" v-for="item in items" :key="item._id" class="item">
 
         <div>
             <img class="item-img" :src="item.image" alt="">
