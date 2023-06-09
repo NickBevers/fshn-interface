@@ -8,12 +8,13 @@
 
     const items:Ref = ref([]);
     const productIds:Ref = ref([]);
-    const clientNumber = ref("");
     const amount:Ref = ref([]);
+
+    const clientNumber = localStorage.getItem("clientNumber");
 
     onMounted(() => {
 
-        fetch(`${import.meta.env.VITE_API_URL}/carts/client/1`, {
+        fetch(`${import.meta.env.VITE_API_URL}/carts/client/${clientNumber}`, {
             
             method: "GET",
             headers: {
@@ -38,9 +39,7 @@
                 //get prices
                 items.value.forEach((element: { price: number;}) => {
                     amount.value.push(element.price);
-                });
-
-                clientNumber.value = data.data[0].clientNumber;                
+                });              
 
                 getProductID(productIds.value);
                 getPrices(amount.value);

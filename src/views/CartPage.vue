@@ -19,10 +19,10 @@
     const { productId, amount } = storeToRefs(orderStore);
 
     const emit = defineEmits([ "getProductID" ]);
-    const clientNumber = ref("1");
 
 
     const storeID = localStorage.getItem("storeID");
+    const clientNumber = localStorage.getItem("clientNumber");
 
     const placeOrder = () => {
         emit ("getProductID", tempProductIds.value);
@@ -30,7 +30,7 @@
         const data = {
             storeId: storeID,
             productIds: tempProductIds.value,
-            clientNumber: "1",
+            clientNumber: clientNumber,
             amount: tempAmount           
         }
 
@@ -52,7 +52,7 @@
             .then((data) => {
                 console.log(data);
                 
-                orderPage(clientNumber.value);
+                orderPage(clientNumber);
 
 
             })
@@ -72,9 +72,7 @@
         tempAmount = value;
     });
 
-    const orderPage = (clientNumber: string) => {
-        //console.log(name);
-        //localStorage.removeItem("productIds");
+    const orderPage = (clientNumber: any) => {
         router.push({ name: "Order", params: { clientNumber: clientNumber } });
     }
 

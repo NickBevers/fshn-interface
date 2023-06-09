@@ -1,5 +1,11 @@
 <script lang="ts" setup>
+    import router from '../router';
 
+    const clientNumber = localStorage.getItem("clientNumber");
+
+    const goToCart = () => {
+        router.push(`/cart/${clientNumber}`);
+    }
 </script>
 
 <template>
@@ -16,9 +22,9 @@
                 </router-link>
             </div>
             <div class="cart">
-                <router-link exact to="/cart">
+                <a @click="goToCart">
                     <img class="icon" src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
-                </router-link>                  
+                </a>                  
             </div>
         </div>
     </nav>

@@ -44,7 +44,7 @@
     const newClient = () => {
         //generate new client number
         const newClientNumber:any = Math.floor(Math.random() * 1000000000);
-        localStorage.setItem("clienNumber", newClientNumber);
+        localStorage.setItem("clientNumber", newClientNumber);
         router.push("/explore");
     }
 

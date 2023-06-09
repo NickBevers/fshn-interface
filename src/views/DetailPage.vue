@@ -27,7 +27,7 @@
 
     const productIDs:Ref = ref([ '' ]);
     const storeID = localStorage.getItem("storeID");
-
+    const clientNumber = localStorage.getItem("clientNumber");
 
     onMounted(() => {
 
@@ -70,7 +70,7 @@
         const data = {
             productId: productID.value,
             storeId: storeID,
-            clientNumber: "1",
+            clientNumber: clientNumber,
             color: tempColor.value,
             size: tempSize.value,
             name: item.value.name,
@@ -96,7 +96,7 @@
             })
             .then((data) => {
                 console.log(data);
-                router.push({ name: "Order" });
+                router.push({ name: "Cart", params: { clientNumber: clientNumber } });
             })
             .catch((error) => {
                 console.log(error);

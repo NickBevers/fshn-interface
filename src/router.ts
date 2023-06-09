@@ -40,7 +40,7 @@ export default createRouter({
             component: Detail
         },
         {
-            path: '/cart',
+            path: '/cart/:clientNumber',
             name: 'Cart',
             component: Cart
         },
