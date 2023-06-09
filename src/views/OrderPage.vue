@@ -31,9 +31,15 @@
                 return response.json();
             })
             .then((data) => {
-                console.log(data.data);
-                order.value = data.data[0];
-                console.log(order.value);
+                //console.log(data.data);
+                order.value = data.data;
+                //console.log(order.value);
+
+                setTimeout(() => {
+                    const newClientNumber:any = Math.floor(Math.random() * 1000000000);
+                    localStorage.setItem("clientNumber", newClientNumber);
+                    router.push("/explore");
+                }, 10000);
 
             })
             .catch((error) => {
@@ -66,8 +72,9 @@
             <div class="order_checkout">
                 <p class="order_text">Please go to the register to checkout</p>
             </div>
-            <div>
-                <a @click="newClient">Button</a>
+
+            <div class="back">
+                <a class="home-button" @click="newClient">Go back to home</a>
             </div>
         </div>
 
@@ -112,5 +119,28 @@
 
     .order_number{
         font-weight: 700;
+    }
+
+    .back {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 2rem;
+    }
+
+    .home-button {
+        display: block;
+        background-color: white;
+        color: black;
+        border: none;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        font-weight: 400;
+        cursor: pointer;
+        text-align: center;
+        text-transform: uppercase;
+        border-radius: 0;
+        width: 100%;
     }
 </style>
