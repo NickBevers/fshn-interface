@@ -26,8 +26,8 @@
             if (data.status === "success") {
                 //console.log("success");
                 if (clientNumber === null) {
-                    const newClientNumber:any = Math.floor(Math.random() * 1000000000);
-                    localStorage.setItem("clientNumber", newClientNumber);
+                    const newClientNumber:number = Math.floor(Math.random() * 1000000000);
+                    localStorage.setItem("clientNumber", JSON.stringify(newClientNumber));
                 }
                 localStorage.setItem("jwtToken", data.token);
                 router.push("/explore")

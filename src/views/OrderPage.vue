@@ -35,9 +35,7 @@
                 //console.log(order.value);
 
                 setTimeout(() => {
-                    const newClientNumber:any = Math.floor(Math.random() * 1000000000);
-                    localStorage.setItem("clientNumber", newClientNumber);
-                    router.push("/explore");
+                    newClient();
                 }, 10000);
 
             })
@@ -48,8 +46,8 @@
 
     const newClient = () => {
         //generate new client number
-        const newClientNumber:any = Math.floor(Math.random() * 1000000000);
-        localStorage.setItem("clientNumber", newClientNumber);
+        const newClientNumber:number = Math.floor(Math.random() * 1000000000);
+        localStorage.setItem("clientNumber", JSON.stringify(newClientNumber));
         router.push("/explore");
     }
 

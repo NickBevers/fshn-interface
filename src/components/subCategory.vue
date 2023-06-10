@@ -4,7 +4,7 @@ import { onMounted, ref, Ref } from "vue";
 import router from "../router";
 
 
-const categories:any = ref([]);
+const categories:Ref = ref([]);
 
 
 onMounted(async () => {
@@ -55,12 +55,12 @@ onMounted(async () => {
     });
 });
 
-function categoryPage(name:any) {
+function categoryPage(name:string) {
         console.log(name);
         //split name
-        name = name.split(" &");
+        name = name.split(" &")[0];
         console.log(name);
-        router.push({ name: "Category", params: { name: name[0] } });
+        router.push({ name: "Category", params: { name: name } });
 }
 
 </script>

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
     import router from '../router';
 
-    const clientNumber = localStorage.getItem("clientNumber");
+    const clientNumber:number = JSON.parse(localStorage.getItem("clientNumber")!);
 
     const goToCart = () => {
         router.push(`/cart/${clientNumber}`);

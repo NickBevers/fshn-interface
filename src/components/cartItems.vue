@@ -12,7 +12,7 @@
     const amount:Ref = ref([]); 
     const empty = ref(false);
 
-    const clientNumber = localStorage.getItem("clientNumber");
+    const clientNumber:number = JSON.parse(localStorage.getItem("clientNumber")!)??"";
 
     onMounted(() => {
 
@@ -51,8 +51,6 @@
 
                 getProductID(productIds.value);
                 getPrices(amount.value);
-                
-
             })
             .catch((error) => {
                 console.log(error);
@@ -103,7 +101,7 @@
     <div v-if="empty === true">
         <EmptyCart/>
     </div>
-    <div v-else-if="empty === false" v-for="item in items" :key="item._id" class="item">
+    <div v-for="item in items" v-else-if="empty === false" :key="item._id" class="item">
         <div>
             <img class="item-img" :src="item.image" alt="">
         </div>

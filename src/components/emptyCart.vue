@@ -18,7 +18,7 @@
             </div>
 
             <div class="button">
-                <a @click="explore" class="black_btn">Start exploring</a>
+                <a class="black_btn" @click="explore">Start exploring</a>
             </div>
         </div>
 

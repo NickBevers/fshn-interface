@@ -23,7 +23,7 @@
 
 
     const storeID = localStorage.getItem("storeID");
-    const clientNumber = localStorage.getItem("clientNumber");
+    const clientNumber = JSON.parse(localStorage.getItem("clientNumber")!)??"";
 
     const placeOrder = () => {
         emit ("getProductID", tempProductIds.value);
@@ -73,7 +73,7 @@
         tempAmount = value;
     });
 
-    const orderPage = (clientNumber: any) => {
+    const orderPage = (clientNumber: number) => {
         router.push({ name: "Order", params: { clientNumber: clientNumber } });
     }
 
