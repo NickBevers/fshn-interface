@@ -6,6 +6,11 @@
     const collections:Ref = ref([]);
 
     onMounted(() => {
+        const jwtToken = localStorage.getItem("jwtToken");
+        if (!jwtToken) {
+            router.push("/login");
+            return;
+        }
         fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
             method: "GET",
             headers: {
@@ -67,9 +72,11 @@
 
     <div class="collections">
         <div v-for="collection in collections" :key="collection._id" class="collection">
-            <img class="collection_img" :src="collection.image" alt="">
-            <h3 class="collection_title">{{collection.name}}</h3>
-            <a class="cta" @click="collectionPage(collection._id)">Shop now</a>
+            <a @click="collectionPage(collection._id)">
+                <img class="collection_img" :src="collection.image" alt="">
+                <h3 class="collection_title">{{collection.name}}</h3>
+                <p class="cta">Shop now</p>
+            </a>
         </div>
     </div>
 
@@ -78,6 +85,7 @@
 <style scoped>
     a {
         color: white;
+        cursor: pointer;
     }
 
     .collections {

@@ -1,5 +1,6 @@
 import {createRouter, createWebHistory} from 'vue-router'
 import Home from './views/HomePage.vue'
+import Mapping from './views/MappingPage.vue'
 import Catalog from './views/CatalogPage.vue'
 import Category from './views/CategoryPage.vue'
 import Detail from './views/DetailPage.vue'
@@ -68,6 +69,11 @@ export default createRouter({
             path: '/tryoncart',
             name: 'TryonCart',
             component: TryonCart
+        },
+        {
+            path: '/mapping/:id',
+            name: 'Mapping',
+            component: Mapping
         }
     ]
 })

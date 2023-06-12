@@ -15,7 +15,11 @@
     const clientNumber:number = JSON.parse(localStorage.getItem("clientNumber")!)??"";
 
     onMounted(() => {
-
+        const jwtToken = localStorage.getItem("jwtToken");
+        if (!jwtToken) {
+            router.push("/login");
+            return;
+        }
         fetch(`${import.meta.env.VITE_API_URL}/carts/client/${clientNumber}`, {
             
             method: "GET",

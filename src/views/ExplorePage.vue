@@ -97,6 +97,7 @@
     }
 
     .category_btn {
+        box-sizing: border-box;
         padding: 14px 5px;
     }
 </style>

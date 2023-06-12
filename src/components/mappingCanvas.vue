@@ -10,7 +10,7 @@ const { imgSrc, place, verticalOffset, horizontalOffset } = toRefs(props);
 
 // Define the variables that will be used in the component
 const fps = 20;
-const cameraOffset = 80;
+const cameraOffset = 150;
 const detectorConfig = {
     // modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
     modelType: poseDetection.movenet.modelType.SINGLEPOSE_LIGHTNING,
@@ -19,6 +19,10 @@ const detectorConfig = {
 };
 const img = new Image();
 img.src = imgSrc.value
+
+console.log(img.width, img.height);
+
+
 const width: { min: number; ideal: number; max: number } = { min: 360, ideal: 720, max: 1080 }; //640 - 1200 (real)
 const height: { min: number; ideal: number; max: number } = { min: 640, ideal: 1280, max: 1920 }; //480 - 675 (real)
 let detector: poseDetection.PoseDetector;
@@ -79,12 +83,16 @@ const drawCanvas = () => {
     canvasContainer.style.height = `${height}px`;
     const canvas: HTMLCanvasElement = document.querySelector(".canvas--map") as HTMLCanvasElement;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width.ideal;
+    canvas.width = width.ideal * 1.8;
     canvas.height = height.ideal;
 
     // draw the video on the canvas, but only if the video is not paused or ended
     // console.log(video);
-    ctx.drawImage(video, -canvas.width / 2, 0, canvas.width * 2, canvas.height);
+    // ctx.drawImage(video, -canvas.width / 2, 0, canvas.width * 2, canvas.height);
+
+    // draw the video on the canvas, but only if the video is not paused or ended
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
     if (video.paused || video.ended) return;
 
     // get the poses and draw them on the canvas
@@ -114,6 +122,7 @@ const getPoses = async () => {
         const keypoints = poses[0].keypoints;
         drawKeypoints(keypoints);
     } else {
+
         return;
     }
 };
@@ -133,9 +142,10 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
     // loop through the keypoints set the distance
     newKeypoints.forEach((keypoint) => {
         ctx.beginPath();
-        keypoint.y = keypoint.y * 2 - cameraOffset;
+        // keypoint.y = keypoint.y * 2 - cameraOffset * 2;
         keypoint.x = keypoint.x * 2 - canvas.width / 2;
-        ctx.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
+        keypoint.y = keypoint.y * 2 - (cameraOffset * (keypoint.y / canvas.height) * 2.5);
+
         if (keypoint.name === "right_shoulder") {
             ctx.fillStyle = "red";
             rightShoulder = { x: keypoint.x, y: keypoint.y };
@@ -145,14 +155,19 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
             leftShoulder = { x: keypoint.x, y: keypoint.y };
         } else if (keypoint.name === "left_hip"){
             ctx.fillStyle = "yellow";
+            keypoint.x += 30;
+            keypoint.y += 50;
             leftHip = { x: keypoint.x, y: keypoint.y };
         } else if (keypoint.name === "right_hip"){
             ctx.fillStyle = "orange";
+            keypoint.x -= 50;
+            keypoint.y += 50;
             rightHip = { x: keypoint.x, y: keypoint.y };
         } else {
             ctx.fillStyle = "green";
         }
-
+        
+        ctx.arc(keypoint.x, keypoint.y, 4, 0, 2 * Math.PI);
         // calcuilate the distance between the shoulders or the hips depending on the clothing type
         if (place.value === "top") {
             distance = Math.sqrt(
@@ -163,16 +178,14 @@ const drawKeypoints = (keypoints: poseDetection.Keypoint[]) => {
                 Math.pow(rightHip.x - leftHip.x, 2) + Math.pow(rightHip.y - leftHip.y, 2)
             );
         }
+        
 
         ctx.fill();
     });
 
     // if clothing is true, call the showTshirt function
     if (clothing && distance !== 0) {
-        if (distance < 0) {
-            distance = distance * -1;
-        }
-        showClothes(distance * 2);
+        showClothes(distance);
     }
 };
 
@@ -185,6 +198,7 @@ const showClothes = (distance: number) => {
     canvas.height = height.ideal;
     let angle: number;
     let translation: {x: number, y: number};
+    const absoluteDistance = Math.abs(distance);
 
     if (place.value === "top") {
         angle = Math.atan2(rightShoulder.y - leftShoulder.y, rightShoulder.x - leftShoulder.x) + Math.PI;
@@ -195,10 +209,15 @@ const showClothes = (distance: number) => {
         translation = {x: leftHip.x, y: leftHip.y};
     }
 
-    // calculate the scale and angle
-    let scale = distance / img.width;
-    scale = scale * 0.95;
+    // check if distance is big enough to draw the tshirt
+    if (absoluteDistance < 200) {
+        console.log("distance too small");
+        return;
+    }
 
+    // calculate the scale and angle
+    const scale = absoluteDistance / (img.width - horizontalOffset.value);
+    // scale = scale * 0.9;
 
     // if the angle is upside down, rotate it 180 degrees
     if (angle! > Math.PI / 2 && angle! < (Math.PI * 3) / 2) {
@@ -208,10 +227,13 @@ const showClothes = (distance: number) => {
     // draw the clothng piece on the canvas (tshirt) and rotate it to the correct angle
     ctx.translate(translation!.x, translation!.y);
     ctx.rotate(angle!);
+    rightShoulder.x < leftShoulder.x ? ctx.scale(1, 1) : ctx.scale(-1, 1);
+
 
     // calculate the new width and height and draw the image on the canvas
-    const newWidth = img.width * scale;
-    const newHeight = img.height * scale;
+    const newWidth = img.width * scale + horizontalOffset.value * 2 * scale;
+    // const newHeight = img.height * scale + verticalOffset.value * 2 * scale;
+    const newHeight = newWidth * img.height / img.width;
 
     if (img.width > canvas.width) {
         ctx.drawImage(
@@ -222,25 +244,42 @@ const showClothes = (distance: number) => {
             newHeight
         );
     } else {
+        // ctx.drawImage(
+        //     img,
+        //     -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
+        //     -verticalOffset.value,
+        //     newWidth,
+        //     newHeight
+        // );
+
+        // console.log(distance, img.width);
+        // const scale = (distance + horizontalOffset.value * 2) / img.width;
+
+        // console.log(distance, leftHip.x, rightHip.x);
         ctx.drawImage(
             img,
-            -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
+            // -(canvas.width - img.width) * scale - (horizontalOffset.value * 2) ,
+            // (canvas.width / 2 - img.width) * scale * 2,
+            -canvas.width * scale / 1.5 - horizontalOffset.value *2 * scale,
             -verticalOffset.value,
+            // rightShoulder.x < leftShoulder.x ? newWidth : -newWidth,
             newWidth,
             newHeight
         );
+
+
+        // ctx.drawImage(
+        //     img,
+        //     -(canvas.width - img.width) * scale - (horizontalOffset.value) * scale - canvas.width / 1.3 * scale,
+        //     // -(canvas.width - img.width) * scale - (horizontalOffset.value),
+        //     -verticalOffset.value,
+        //     distance,
+        //     newHeight * 1.5
+        // );
     }
 
-    // ctx.drawImage(
-    //     img,
-    //     // (-canvas.width * scale) - horizontalOffset.value * scale,
-    //     -(canvas.width * scale - img.width * scale) / 2 - (horizontalOffset.value * 2) * scale ,
-    //     -verticalOffset.value,
-    //     newWidth,
-    //     newHeight
-    // );
-
     // reset the canvas to its original state
+    // ctx.scale(1, 1);
     ctx.rotate(-angle!);
     ctx.translate(-leftShoulder.x, -leftShoulder.y);
 };
@@ -288,6 +327,8 @@ button {
     position: relative;
     width: 100%;
     height: clamp(640px, 100vh, 1280px);
+    /* width: 720px;
+    height: 1280px; */
     margin: 0 auto;
     display: flex;
     justify-content: center;
@@ -297,6 +338,8 @@ button {
 .canvas--clothes {
     position: absolute;
     top: 20px;
+    /* width: 100%;
+    height: 100%; */
 }
 
 .canvas--map {

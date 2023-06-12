@@ -6,6 +6,11 @@
     const categories:Ref = ref([]);
 
     onMounted(() => {
+        const jwtToken = localStorage.getItem("jwtToken");
+        if (!jwtToken) {
+            router.push("/login");
+            return;
+        }
         fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
             method: "GET",
             headers: {
@@ -64,8 +69,10 @@
 <template>
 
     <div v-for="category in categories" :key="category._id" class="category">
-        <img class="category_img" :src="category.image" alt="">
-        <a class="black_btn" @click="categoryPage(category._id)" > {{category.name}}</a>
+        <a class="pointer" @click="categoryPage(category._id)">
+            <img class="category_img" :src="category.image" alt="">
+            <p class="black_btn"> {{category.name}} </p>
+        </a>
     </div>
 
 </template>
@@ -90,5 +97,9 @@
 
     .category_img {
         max-width: 100%;
+    }
+
+    .pointer{
+        cursor: pointer;
     }
 </style>

@@ -114,6 +114,10 @@
         tempSize.value = value;
     });
 
+    function handleClick() {
+        router.push({ name: "Mapping", params: { id: clothingId } });
+    }
+
 
 </script>
 
@@ -159,9 +163,9 @@
 
             <div class="item_desc">
                 <div class="map">
-                    <router-link excat to="/">
+                    <a @click="handleClick">
                         <a class="white_btn">Try On Virtually</a>
-                    </router-link>
+                    </a>
                 </div>
 
                 <a class="black_btn" @click="addToCart" >Add to Cart</a>
