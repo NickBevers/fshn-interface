@@ -2,6 +2,7 @@
     import Navigation from '../components/navComponent.vue'
     import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const jwtToken = localStorage.getItem("jwtToken");
 
@@ -10,8 +11,7 @@
     }
 
     const order:Ref = ref("");
-
-    const clientNumber = window.location.pathname.split("/")[2];
+    const clientNumber = generateClientNumber();
 
     onMounted(() => {
 

@@ -6,12 +6,15 @@
 
     import { ref, Ref, onBeforeMount } from 'vue';
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
+
+    generateClientNumber();
+
 
     const clothes:Ref = ref([]);
     const name = ref("");

@@ -4,6 +4,8 @@
     import BackButton from '../components/backButton.vue';
     import Items from '../components/cartItems.vue';
 
+    import generateClientNumber from '../functions/generateClientNumber';
+
     import { storeToRefs } from "pinia";
     import { useOrderStore } from '../stores/order';
 
@@ -11,11 +13,11 @@
     import router from '../router';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
-
+    
+    generateClientNumber();
     const orderStore = useOrderStore();
     const { productId, amount } = storeToRefs(orderStore);
 

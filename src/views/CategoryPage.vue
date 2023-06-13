@@ -2,7 +2,7 @@
     // import components
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
-
+    import generateClientNumber from '../functions/generateClientNumber';
     import { ref, Ref, onBeforeMount } from 'vue';
     import router from '../router';
 
@@ -11,8 +11,9 @@
         router.push("/login");
     }
 
-    const subcategories:Ref = ref([]);
+    generateClientNumber();
 
+    const subcategories:Ref = ref([]);
     const categoryID = window.location.pathname.split("/")[2];
 
     onBeforeMount(() => {

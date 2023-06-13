@@ -5,15 +5,16 @@
 
     import { onMounted, ref, Ref } from 'vue';
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
+
+    generateClientNumber();
     
     const collectionClothes:Ref = ref([]);
-
     const collectionID = window.location.pathname.split("/")[2];
     console.log(collectionID);
 

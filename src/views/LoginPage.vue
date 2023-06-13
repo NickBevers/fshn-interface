@@ -3,11 +3,11 @@
 
     import { ref } from 'vue';
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const email = ref('');
     const password = ref('');
-
-    const clientNumber = localStorage.getItem("clientNumber");
+    const clientNumber = generateClientNumber();
 
     const login = () => {
         fetch(`${import.meta.env.VITE_API_URL}/users/login`, {

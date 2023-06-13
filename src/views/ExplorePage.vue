@@ -5,12 +5,14 @@
     import collectionComponent from '../components/collectionComponent.vue';
 
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
+
+    generateClientNumber();
 
 
 </script>

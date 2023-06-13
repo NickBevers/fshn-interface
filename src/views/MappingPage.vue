@@ -4,12 +4,14 @@ import backButton from '../components/backButton.vue'
 import MappingCanvas from "../components/mappingCanvas.vue";
 import router from '../router'
 import { onMounted, ref, Ref } from 'vue';
+import generateClientNumber from '../functions/generateClientNumber';
 
 const jwtToken = localStorage.getItem("jwtToken");
-
 if (!jwtToken) {
     router.push("/login");
 }
+
+generateClientNumber();
 
 const clothingToMap:Ref = ref({});
 

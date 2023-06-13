@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import { ref, Ref, watch } from 'vue';
-    import VueSimpleRangeSlider from "vue-simple-range-slider";
-    import "vue-simple-range-slider/css";
+    // import VueSimpleRangeSlider from "vue-simple-range-slider";
+    // import "vue-simple-range-slider/css";
 
     const props = defineProps({
         price: {

@@ -7,12 +7,14 @@
     import { storeToRefs } from 'pinia';
     import { useOrderStore } from '../stores/order';
     import router from '../router';
+    import generateClientNumber from '../functions/generateClientNumber';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
+
+    generateClientNumber();
 
     const clothingId = window.location.pathname.split("/")[2];
     
