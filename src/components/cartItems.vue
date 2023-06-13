@@ -77,6 +77,19 @@
     }
 
     const removeItem = (id: string) => {
+        const index = items.value.findIndex((item: { _id: string; }) => item._id === id)
+        const tempItems = document.querySelectorAll(".item");
+        if (index > -1) {
+            items.value.splice(index, 1);
+            tempItems[index].remove();
+        }
+
+        if (items.value.length === 0) {
+            empty.value = true;
+        } else {
+            empty.value = false;
+        }
+
         fetch(`${import.meta.env.VITE_API_URL}/carts/${id}`, {
             
             method: "DELETE",
@@ -92,8 +105,8 @@
             })
             .then((data) => {
                 console.log(data);
-                router.go(0);
-                /*Fixen zodat er geen reload is.  */
+                // router.go(0);
+                /*TODO: Fixen zodat er geen reload is.  */
             })
             .catch((error) => {
                 console.log(error);
@@ -180,7 +193,8 @@
 
     .remove {
         width: 80%;
-        margin-top: 0;
+        height: 3.5rem;
+        margin-top: -1.5rem;
     }
 
 </style>

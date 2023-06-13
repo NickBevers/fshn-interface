@@ -31,8 +31,7 @@
         justify-content: center;
         align-items: center;
         text-align: center;
-        min-height: 100vh;
-
+        min-height: 100%;
     }
 
     .order_message {
@@ -44,6 +43,7 @@
 
     .order_title {
         margin-bottom: 2rem;
+        height: 2rem;
     }
 
     .order_info {

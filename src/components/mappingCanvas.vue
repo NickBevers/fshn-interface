@@ -18,10 +18,7 @@ const detectorConfig = {
     trackerType: poseDetection.TrackerType.BoundingBox,
 };
 const img = new Image();
-img.src = imgSrc.value
-
-console.log(img.width, img.height);
-
+img.src = imgSrc.value;
 
 const width: { min: number; ideal: number; max: number } = { min: 360, ideal: 720, max: 1080 }; //640 - 1200 (real)
 const height: { min: number; ideal: number; max: number } = { min: 640, ideal: 1280, max: 1920 }; //480 - 675 (real)
@@ -251,11 +248,6 @@ const showClothes = (distance: number) => {
         //     newWidth,
         //     newHeight
         // );
-
-        // console.log(distance, img.width);
-        // const scale = (distance + horizontalOffset.value * 2) / img.width;
-
-        // console.log(distance, leftHip.x, rightHip.x);
         ctx.drawImage(
             img,
             // -(canvas.width - img.width) * scale - (horizontalOffset.value * 2) ,
@@ -266,20 +258,8 @@ const showClothes = (distance: number) => {
             newWidth,
             newHeight
         );
-
-
-        // ctx.drawImage(
-        //     img,
-        //     -(canvas.width - img.width) * scale - (horizontalOffset.value) * scale - canvas.width / 1.3 * scale,
-        //     // -(canvas.width - img.width) * scale - (horizontalOffset.value),
-        //     -verticalOffset.value,
-        //     distance,
-        //     newHeight * 1.5
-        // );
     }
 
-    // reset the canvas to its original state
-    // ctx.scale(1, 1);
     ctx.rotate(-angle!);
     ctx.translate(-leftShoulder.x, -leftShoulder.y);
 };

@@ -3,11 +3,10 @@
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
 
-    import { onMounted, ref, Ref } from 'vue';
+    import { ref, Ref, onBeforeMount } from 'vue';
     import router from '../router';
 
     const jwtToken = localStorage.getItem("jwtToken");
-
     if (!jwtToken) {
         router.push("/login");
     }
@@ -16,7 +15,7 @@
 
     const categoryID = window.location.pathname.split("/")[2];
 
-    onMounted(() => {
+    onBeforeMount(() => {
 
         fetch(`${import.meta.env.VITE_API_URL}/subCategories/category/${categoryID}`, {
             method: "GET",
@@ -60,7 +59,7 @@
             <div class="categories">
 
                 <div v-for="subcategory in subcategories" :key="subcategory._id" class="category">
-                    <a @click="catalogPage(subcategory._id)">
+                    <a class="pointer" @click="catalogPage(subcategory._id)">
                         <img class="category_img" :src="subcategory.image" alt="">
                         <h3 class="category_title">{{ subcategory.name }}</h3>
                     </a>

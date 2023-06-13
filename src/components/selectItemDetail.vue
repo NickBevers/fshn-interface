@@ -8,6 +8,8 @@
     const item:Ref = ref('');
     const sizes:Ref = ref([]);
     const colors:Ref = ref([]);
+    const colorValue:Ref = ref('');
+    const sizeValue:Ref = ref('');
 
     onMounted(() => {
 
@@ -20,8 +22,7 @@
             },
             mode: "cors"
             
-        }
-        )
+        })
             .then((response) => {
                 return response.json();
             })
@@ -30,6 +31,8 @@
                 item.value = data.data;
                 sizes.value = item.value.sizes;
                 colors.value = item.value.colors;
+                colorValue.value = item.value.colors[0];
+                sizeValue.value = item.value.sizes[0];
             })
             .catch((error) => {
                 console.log(error);
@@ -38,18 +41,16 @@
 
     const selectColor = (e: Event) => {
         const color = e.target as HTMLInputElement;
-        const colorValue = color.value;
-        console.log(colorValue);
+        colorValue.value = color.value;
 
-        orderStore.setColor(colorValue);
+        orderStore.setColor(colorValue.value);
     }
 
     const selectSize = (e: Event) => {
         const size = e.target as HTMLInputElement;
-        const sizeValue = size.value;
-        console.log(sizeValue);
+        sizeValue.value = size.value;
 
-        orderStore.setSize(sizeValue);
+        orderStore.setSize(sizeValue.value);
     }
 
 </script>

@@ -22,7 +22,7 @@
                 </router-link>
             </div>
             <div class="cart">
-                <a @click="goToCart">
+                <a class="pointer" @click="goToCart">
                     <img class="icon" src="../assets/shoppingcart.svg" alt="Shoppingcart icon">
                 </a>                  
             </div>

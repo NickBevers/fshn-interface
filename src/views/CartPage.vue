@@ -92,12 +92,12 @@
                 <Items/>
             </div>
 
-            <div class="warning"> 
+            <div v-if="productId[0].length !> 0" class="warning"> 
                 <h3 class="error">Attention!</h3>
                 <p class="warning-text">Your order is placed online, checkout happens at the register</p>
             </div>
-            <div>
-                <a class="black_btn" @click="placeOrder">Place order</a>
+            <div  v-if="productId[0].length !> 0">
+                <a class="black_btn pointer" @click="placeOrder">Place order</a>
             </div>
         </div>
     </div>
@@ -126,8 +126,9 @@
         margin-bottom: 4rem;
     }
     .items {
-        overflow-y: scroll;
-        max-height: 50rem;
+        overflow-y: auto;
+        max-height: 70vh;
+        min-height: 50vh;
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }
@@ -142,6 +143,7 @@
         font-size: 1.5rem;
         line-height: 2rem;
         text-transform: uppercase;
+        margin: 0;
     }
 
     .warning-text {
@@ -156,7 +158,6 @@
         background-color: transparent;
         padding: 14px 0px;
         font-size: 1.2rem;
-        cursor: pointer;
         text-align: center;
         margin: 2rem 0;
         text-transform: uppercase;

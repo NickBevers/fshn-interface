@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-    import { onMounted, ref, Ref } from 'vue';
+    import { ref, Ref, onBeforeMount } from 'vue';
     import router from '../router';
 
     const store = ref('');
     const categories:Ref = ref([]);
 
-    onMounted(() => {
+    onBeforeMount(() => {
         const jwtToken = localStorage.getItem("jwtToken");
         if (!jwtToken) {
             router.push("/login");
             return;
         }
+
         fetch(`${import.meta.env.VITE_API_URL}/users/auth`, {
             method: "GET",
             headers: {
@@ -46,8 +47,7 @@
             },
             mode: "cors"
             
-        }
-        )
+        })
             .then((response) => {
                 return response.json();
             })
@@ -89,7 +89,6 @@
         background-color: transparent;
         padding: 14px 0px;
         font-size: 1.2rem;
-        cursor: pointer;
         text-align: center;
         margin: 2rem 0;
         text-transform: uppercase;
@@ -97,9 +96,5 @@
 
     .category_img {
         max-width: 100%;
-    }
-
-    .pointer{
-        cursor: pointer;
     }
 </style>

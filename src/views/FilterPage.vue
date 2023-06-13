@@ -12,7 +12,11 @@
     }
 
     oninput = (event: Event) => {
-      const { value } = event.target as unknown as { value: number };
+    //   const { value } = event.target as unknown as { value: number };
+
+      // set the value with event.target.value
+      const value = (event.target as HTMLInputElement).valueAsNumber;
+
       setRate(value);
     };
 
@@ -125,7 +129,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
 
 </template>

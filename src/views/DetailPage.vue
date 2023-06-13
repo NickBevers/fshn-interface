@@ -3,7 +3,7 @@
     import Navigation from '../components/navComponent.vue';
     import BackButton from '../components/backButton.vue';
     import selectItemDetail from '../components/selectItemDetail.vue';
-    import { onMounted, ref, Ref, watch } from 'vue';
+    import { ref, Ref, watch, onBeforeMount } from 'vue';
     import { storeToRefs } from 'pinia';
     import { useOrderStore } from '../stores/order';
     import router from '../router';
@@ -22,14 +22,17 @@
     const emit = defineEmits([ "getDetails" ]);
 
     const item:Ref = ref('');
-    const stock = ref('');
-    const productID = ref('');
+    const stock: Ref = ref('');
+    const productID: Ref = ref('');
 
     const productIDs:Ref = ref([ '' ]);
     const storeID = localStorage.getItem("storeID");
     const clientNumber = localStorage.getItem("clientNumber");
+    const tempColor: Ref = ref('');
+    const tempSize: Ref = ref('');
 
-    onMounted(() => {
+
+    onBeforeMount(() => {
 
         fetch(`${import.meta.env.VITE_API_URL}/clothing/${clothingId}`, {
             
@@ -40,8 +43,7 @@
             },
             mode: "cors"
             
-        }
-        )
+        })
             .then((response) => {
                 return response.json();
             })
@@ -53,6 +55,8 @@
                 productIDs.value.push(data.data._id);
                 orderStore.setProductId({...productIDs.value});
                 console.log(productIDs.value);
+                tempColor.value = item.value.colors[0];
+                tempSize.value = item.value.sizes[0];
             })
             .catch((error) => {
                 console.log(error);
@@ -102,10 +106,6 @@
                 console.log(error);
             });
     }
-
-    const tempColor = ref('');
-    const tempSize = ref('');
-
     watch(color, (value) => {
         tempColor.value = value;
     });

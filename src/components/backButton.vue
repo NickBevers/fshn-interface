@@ -5,7 +5,7 @@
 <template>
     <div class="links">
         <div class="menu">
-            <a class="black_btn back_btn" @click="$router.back()">
+            <a class="black_btn back_btn pointer" @click="$router.back()">
                 <img class="arrow" src="../assets/arrow.svg" alt="Arrow icon">
                 <p>Go Back</p>
             </a>

@@ -97,6 +97,18 @@ button:focus-visible {
     transform: scale(-1, 1);
 }
 
+.pointer{
+  cursor: pointer;
+}
+
+.simple-range-slider, .simple-range-slider-popover{
+    background: #000 !important;
+}
+
+.simple-range-slider-popover-arrow{
+    color: #000 !important;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

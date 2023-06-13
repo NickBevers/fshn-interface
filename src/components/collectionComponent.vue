@@ -72,7 +72,7 @@
 
     <div class="collections">
         <div v-for="collection in collections" :key="collection._id" class="collection">
-            <a @click="collectionPage(collection._id)">
+            <a class="pointer" @click="collectionPage(collection._id)">
                 <img class="collection_img" :src="collection.image" alt="">
                 <h3 class="collection_title">{{collection.name}}</h3>
                 <p class="cta">Shop now</p>
@@ -85,7 +85,6 @@
 <style scoped>
     a {
         color: white;
-        cursor: pointer;
     }
 
     .collections {
