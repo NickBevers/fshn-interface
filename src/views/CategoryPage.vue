@@ -96,7 +96,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
         overflow-y: scroll;
-        max-height: 40rem;
+        /* max-height: 40rem; */
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }

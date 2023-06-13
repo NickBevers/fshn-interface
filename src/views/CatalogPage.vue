@@ -181,13 +181,18 @@
 
         <div class="content">
             <h2 class="content_title">{{ name }}</h2>
-            <div class="categories">
+            <div v-if="clothes.length > 0" class="categories">
                  <div v-for="clothing in clothes" :key="clothing._id" class="category">
                     <a class="pointer" @click="detailPage(clothing._id)">  
                         <img class="category_img" :src="clothing.headImage" alt="">
                         <h3 class="category_title">{{ clothing.name }}</h3>
                     </a>
                  </div>
+            </div>
+
+            <div v-else class="empty_catalog">
+                <h1>No items were found</h1>
+                <p>Our apologies, no clothing items were found that match your criteria.</p>
             </div>
 
             <filterComponent class="filtering__overlay" :price="[minPrice, maxPrice]" :sort="filter.sort" :color="filter.color" :size="filter.size" @change-filter="handleFilterChange"/>
@@ -209,6 +214,15 @@
         align-items: center;
         position: relative;
         height: 100%;
+    }
+
+    .empty_catalog{
+        width: 100%;
+        height: 70vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
     }
 
     .links {
@@ -254,7 +268,7 @@
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
         overflow-y: scroll;
-        max-height: 40rem;
+        /* max-height: 40rem; */
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }
