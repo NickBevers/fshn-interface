@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // import the necessary functions and packages
-import { onMounted, onBeforeMount, toRefs } from "vue";
+import { onMounted, onBeforeMount, toRefs, watch } from 'vue';
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import "@tensorflow/tfjs-backend-webgl";
 
@@ -20,6 +20,7 @@ const detectorConfig = {
 const img = new Image();
 img.src = imgSrc.value;
 
+
 const width: { min: number; ideal: number; max: number } = { min: 360, ideal: 720, max: 1080 }; //640 - 1200 (real)
 const height: { min: number; ideal: number; max: number } = { min: 640, ideal: 1280, max: 1920 }; //480 - 675 (real)
 let detector: poseDetection.PoseDetector;
@@ -34,6 +35,10 @@ let rightHip: { x: number; y: number } = { x: 0, y: 0 };
 // Get an instance of the detector before the component is mounted to reduce the loading time
 onBeforeMount(async () => {
     detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
+});
+
+watch(imgSrc, () => {
+    img.src = imgSrc.value;
 });
 
 // Get the video stream and start the detection when the component is mounted
@@ -60,6 +65,8 @@ onMounted(async () => {
                     video!.width = width.ideal;
                     video!.height = height.ideal;
 
+                    console.log(props);
+
                     // start the drawing of the canvas when the video is loaded
                     drawCanvas();
                 };
@@ -76,22 +83,21 @@ onMounted(async () => {
 const drawCanvas = () => {
     // get the canvas and set its width and height (also get the context)
     const canvasContainer = document.querySelector(".canvasContainer") as HTMLDivElement;
-    canvasContainer.style.width = `${width}px`;
-    canvasContainer.style.height = `${height}px`;
+    if(canvasContainer){
+        canvasContainer.style.width = `${width}px`;
+        canvasContainer.style.height = `${height}px`;
+    }
     const canvas: HTMLCanvasElement = document.querySelector(".canvas--map") as HTMLCanvasElement;
-    const ctx: CanvasRenderingContext2D = canvas.getContext("2d") as CanvasRenderingContext2D;
-    canvas.width = width.ideal * 1.8;
-    canvas.height = height.ideal;
-
-    // draw the video on the canvas, but only if the video is not paused or ended
-    // console.log(video);
-    // ctx.drawImage(video, -canvas.width / 2, 0, canvas.width * 2, canvas.height);
-
-    // draw the video on the canvas, but only if the video is not paused or ended
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    if (video.paused || video.ended) return;
-
+    let ctx: CanvasRenderingContext2D;
+    if (canvas) {
+        ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+        canvas.width = width.ideal * 1.8;
+        canvas.height = height.ideal;
+        
+        // draw the video on the canvas, but only if the video is not paused or ended
+        if (video.paused || video.ended) return;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    }
     // get the poses and draw them on the canvas
     getPoses();
 

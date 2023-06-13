@@ -3,7 +3,7 @@ import Navigation from '../components/navComponent.vue'
 import backButton from '../components/backButton.vue'
 import MappingCanvas from "../components/mappingCanvas.vue";
 import router from '../router'
-import { onMounted, ref, Ref } from 'vue';
+import { reactive, onBeforeMount } from 'vue';
 import generateClientNumber from '../functions/generateClientNumber';
 
 const jwtToken = localStorage.getItem("jwtToken");
@@ -13,9 +13,21 @@ if (!jwtToken) {
 
 generateClientNumber();
 
-const clothingToMap:Ref = ref({});
+interface Reactive {
+    mappingImage: string,
+    clothingType: string,
+    verticalOffset: number,
+    horizontalOffset: number
+}
 
-onMounted(() => {
+const clothingToMap: Reactive = reactive({
+    mappingImage: "",
+    clothingType: "",
+    verticalOffset: 0,
+    horizontalOffset: 0
+});
+
+onBeforeMount(() => {
     const clothingId = window.location.pathname.split("/")[2];
     
     fetch(`${import.meta.env.VITE_API_URL}/clothing/${clothingId}`, {
@@ -28,12 +40,15 @@ onMounted(() => {
             mode: "cors"
             
         })
-            .then((response) => {
-                return response.json();
-            })
+            .then(res => res.json())
             .then((data) => {
                 console.log(data);
-                clothingToMap.value = data.data;
+                clothingToMap.mappingImage = data.data.mappingImage;
+                clothingToMap.clothingType = data.data.clothingType;
+                clothingToMap.verticalOffset = data.data.verticalOffset;
+                clothingToMap.horizontalOffset = data.data.horizontalOffset;
+
+                console.log(clothingToMap);
             })
             .catch((error) => {
                 console.log(error);
@@ -58,20 +73,21 @@ onMounted(() => {
         </div>
 
         <!-- To implement it in any page, use the component and give it 4 props (the path to the image it has to map, the type of image (top or bottom), the verticalOfsset to the left shoulder and the horizontalOffset to the left shoulder) -->
-        <!-- <MappingCanvas :img-src="'/src/assets/mapping/cropTop.png'" :place="'top'" :vertical-offset="50" :horizontal-offset="15" /> -->
         <!-- <MappingCanvas :img-src="'https://files.nickbevers.be/pull.png'" :place="sweater.type" :vertical-offset="sweater.verticalOffset" :horizontal-offset="sweater.horizontalOffset" /> -->
         <!-- <MappingCanvas :img-src="'https://files.nickbevers.be/pull-S.png'" :place="sweater.type" :vertical-offset="sweater.verticalOffset" :horizontal-offset="sweater.horizontalOffset" /> -->
 
+
+        <!-- Shirts -->
         <!-- Men -->
         <!-- <MappingCanvas :img-src="'/src/assets/mapping/men-shirt.png'" :place="'top'" :vertical-offset="30" :horizontal-offset="130" /> -->
-
+        
         <!-- Women -->
         <!-- <MappingCanvas :img-src="'/src/assets/mapping/cropTop.png'" :place="'top'" :vertical-offset="100" :horizontal-offset="15" /> -->
-
-
-
-
-
+        
+        
+        
+        
+        
         <!-- Pants -->
         <!-- <MappingCanvas :img-src="'https://files.nickbevers.be/pants.png'" :place="pants.type" :vertical-offset="pants.verticalOffset" :horizontal-offset="pants.horizontalOffset" /> -->
         <!-- Men -->
@@ -79,8 +95,9 @@ onMounted(() => {
         
         <!-- Women -->
         <!-- <MappingCanvas :img-src="'/src/assets/mapping/woman-pants.png'" :place="'bottom'" :vertical-offset="45" :horizontal-offset="100" /> -->
-
-
+        
+        <MappingCanvas :img-src="clothingToMap.mappingImage" :place="clothingToMap.clothingType" :vertical-offset="clothingToMap.verticalOffset" :horizontal-offset="clothingToMap.horizontalOffset" />
+        
     </div>
 
 </template>
