@@ -187,7 +187,7 @@
         color: white;
     }
     .container {
-        margin-top: 10rem;
+        margin-top: 8rem;
     }
 
     /*BUTTONS*/
@@ -201,7 +201,7 @@
         font-size: 1.2rem;
         cursor: pointer;
         text-align: center;
-        margin: 2rem 0;
+        margin: 1.5rem 0 0 0;
         text-transform: uppercase;
     }
     .white_btn{
@@ -222,6 +222,7 @@
         grid-template-columns: repeat(3, 1fr);
         gap: 3rem;
         padding-top: 1rem;
+        max-height: 500px;
     }
 
     .head_img{
@@ -230,12 +231,15 @@
         object-fit: cover;
         padding-bottom: 2rem;
         grid-column: 2/span 2;
+        max-height: 500px;
     }
 
     .sub_images{
         display: grid;
         grid-template-columns: repeat(1, 1fr);
         gap: 2rem;
+        width: 80%;
+        max-height: 500px;
     }
 
     .sub_img{
@@ -253,6 +257,7 @@
     .item_name {
         font-size: 1.5rem;
         font-weight: 400;
+        margin-bottom: 0.5rem;
         text-transform: capitalize;
     }
 
@@ -263,6 +268,7 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
+        margin-left: 1rem;
     }
 
     .stock-green {
@@ -283,8 +289,9 @@
 
     .description{
         font-size: 1.5rem;
-        font-weight: 300;
-        padding: 2rem 0;
+        font-weight: 400;
+        padding: 1rem 0 1rem 0;
+        margin: 0;
         line-height: normal;
     }
 </style>

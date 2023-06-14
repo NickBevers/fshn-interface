@@ -101,5 +101,8 @@
     .category_btn {
         box-sizing: border-box;
         padding: 14px 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 </style>

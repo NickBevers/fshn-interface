@@ -213,7 +213,7 @@ const showClothes = (distance: number) => {
     }
 
     // check if distance is big enough to draw the tshirt
-    if (absoluteDistance < 200) {
+    if (absoluteDistance < 100) {
         console.log("distance too small");
         return;
     }

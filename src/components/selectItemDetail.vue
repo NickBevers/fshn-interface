@@ -81,7 +81,7 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 4rem;
+        margin-bottom: 1.5rem;
 
     }
 

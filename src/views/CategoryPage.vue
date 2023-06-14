@@ -85,7 +85,8 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        margin-top: 2rem;
+        overflow: hidden;
+        /* margin-top: 2rem; */
     }
 
     .content_title{
@@ -95,8 +96,8 @@
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         grid-gap: 2rem;
-        overflow-y: scroll;
-        /* max-height: 40rem; */
+        overflow-y: auto;
+        max-height: calc(100vh - 320px);
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
     }

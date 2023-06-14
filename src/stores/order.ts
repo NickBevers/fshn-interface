@@ -5,7 +5,7 @@ export const useOrderStore = defineStore({
     state: () => ({
         color: '',
         size: '',
-        productId: [''],
+        productId: [ '' ],
         amount: 0
     }),
     actions: {

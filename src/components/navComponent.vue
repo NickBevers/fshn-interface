@@ -17,7 +17,7 @@
                 </router-link>
             </div>
             <div class="logo">
-                <router-link exact to="/explore">
+                <router-link exact to="/explore" class="logo__link">
                     <img class="icon" src="../assets/FSHN.svg" alt="FSHN logo">
                 </router-link>
             </div>
@@ -41,6 +41,12 @@ nav {
     width: 100%;
     border-bottom: 1px solid white;
     background-color: black;
+    z-index: 999;
+}
+
+.logo__link {
+    display: flex;
+    justify-content: center;
 }
 
 .icons {
