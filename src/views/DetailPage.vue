@@ -234,19 +234,37 @@
         max-height: 500px;
     }
 
-    .sub_images{
+    /* .sub_images{
         display: grid;
         grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: repeat(2, 1fr);
         gap: 2rem;
         width: 80%;
+        height: 100%;
+        max-height: 500px;
+    } */
+
+    .sub_images{
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        gap: 2rem;
+        width: 80%;
+        height: 100%;
         max-height: 500px;
     }
 
     .sub_img{
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
+        max-height: 250px;
     }
+
+    .details{
+        margin-top: 2rem;
+    }
+
     .top_info {
         display: flex;
         flex-direction: row;
